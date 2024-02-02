@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #f2e8cf;
 }
 
 code {
@@ -13,14 +14,25 @@ code {
 }
 
 /* index.css */
+
+/*Navbar*/
+ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style-type: none;
+  font-weight: bold;
+}
+
 ul li a {
-  color: #000;
+  text-decoration: none;
+  color: #386641;
 }
 
 ul li a:hover {
-  color: #00a8ff;
+  color: #6a994e;
 }
 
 ul li a.active {
-  color: #00a8ff;
+  color: #a7c957;
 }

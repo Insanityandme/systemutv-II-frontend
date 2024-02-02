@@ -10,7 +10,6 @@ import Navbar from "./Navbar";
 const App = () => {
     return (
         <>
-            <Navbar/>
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
