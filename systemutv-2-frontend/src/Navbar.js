@@ -1,5 +1,5 @@
 // Components/NavBar.js
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Login/Register";
 import Dashboard from "./Pages/Dashboard/Dashboard";
@@ -11,19 +11,19 @@ const NavBar = () => {
         <nav>
             <ul>
                 <li>
-                    <Link to="/">Dashboard</Link>
+                    <NavLink to="/">Dashboard</NavLink>
                 </li>
                 <li>
-                    <Link to="/login">Login</Link>
+                    <NavLink to="/login">Login</NavLink>
                 </li>
                 <li>
-                    <Link to="/register">Register</Link>
+                    <NavLink to="/register">Register</NavLink>
                 </li>
                 <li>
-                    <Link to="/search">Search</Link>
+                    <NavLink to="/search">Search</NavLink>
                 </li>
                 <li>
-                    <Link to="/settings">Settings</Link>
+                    <NavLink to="/settings">Settings</NavLink>
                 </li>
             </ul>
         </nav>
