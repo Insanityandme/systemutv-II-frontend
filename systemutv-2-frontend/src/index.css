@@ -13,6 +13,18 @@ code {
     monospace;
 }
 
+@keyframes bg-floating {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 /* index.css */
 
 /*Navbar*/
@@ -36,3 +48,32 @@ ul li a:hover {
 ul li a.active {
   color: #a7c957;
 }
+/*/Navbar*/
+
+
+input {
+  width: 70%;
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 3px solid #386641;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #386641;
+  outline: none;
+}
+
+button {
+  background-color: #386641;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 30%;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background: #a7c957;
+}
+
