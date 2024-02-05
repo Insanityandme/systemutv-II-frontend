@@ -19,7 +19,7 @@
 }
 
 
-h1{
+.login-container > h1{
     margin-left: auto;
     margin-right: auto;
     cursor: default;
@@ -33,12 +33,16 @@ h1{
     align-items: center;
 }
 
+.inputs-container > input {
+    margin-bottom: 16px;
+}
+
 input::placeholder{
     text-align: center;
     color: #386641;
 }
 
-h5{
+.login-container > h5{
     margin-left: auto;
     margin-right: auto;
     cursor: default;
