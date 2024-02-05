@@ -7,5 +7,42 @@
     width: 95%;
     height: 95%;
     margin: auto;
-    background: #386641;
+    background: #6a994e;
+    border-radius: 20px;
+}
+
+.search-buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 95%;
+    height: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1%;
+}
+
+.search-buttons > input {
+    width: 50%;
+}
+
+.search-buttons > button {
+    width: 10%;
+}
+
+.search-result-panel {
+    width: 95%;
+    height: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    background: #f2e8cf;
+    border-radius: 20px;
+}
+
+.search-result-panel > h2 {
+    width: 98%;
+    height: 10%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 1%;
 }
