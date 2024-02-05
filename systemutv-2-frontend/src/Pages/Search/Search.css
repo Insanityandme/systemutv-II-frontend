@@ -1,0 +1,11 @@
+.search {
+    width: 100%;
+    height: 98vh;
+}
+
+.main-panel-search {
+    width: 95%;
+    height: 95%;
+    margin: auto;
+    background: #386641;
+}
