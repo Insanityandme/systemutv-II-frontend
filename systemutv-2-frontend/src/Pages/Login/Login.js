@@ -3,6 +3,11 @@ import {Link, useNavigate} from 'react-router-dom';
 
 const Login = () => {
     const navigate = useNavigate();
+
+    const login = () => {
+        navigate("/dashboard");
+    }
+
     return (
         <div className={"login"}>
             <div className="login-container">
@@ -10,11 +15,12 @@ const Login = () => {
                 <div className="form-container">
                     <form action="#" method="post" className={"inputs-container"}>
                         <input type="email" id="email" name="email" placeholder="Enter your email" required/>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required/>
-                        <button onClick={() => navigate('/')}>Log in</button>
+                        <input type="password" id="password" name="password" placeholder="Enter your password"
+                               required/>
+                        <button onClick={login}>Log in</button>
                     </form>
                 </div>
-                <h5>Don't have an account? <Link to={"/register"}>Create account</Link> </h5>
+                <h5>Don't have an account? <Link to={"/register"}>Create account</Link></h5>
             </div>
         </div>
     );

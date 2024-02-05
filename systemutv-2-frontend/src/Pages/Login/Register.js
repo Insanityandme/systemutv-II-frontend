@@ -27,7 +27,7 @@ const Register = () => {
     };
 
     const Submit = () => {
-       navigate("/");
+       navigate("/dashboard");
     }
 
     return (
@@ -42,7 +42,7 @@ const Register = () => {
                         <button onClick={Submit} disabled={!passwordMatch}>Register</button>
                     </form>
                 </div>
-                <h5>Already have an account? <Link to={"/login"}>Login here</Link> </h5>
+                <h5>Already have an account? <Link to={"/"}>Login here</Link> </h5>
             </div>
         </div>
     );
