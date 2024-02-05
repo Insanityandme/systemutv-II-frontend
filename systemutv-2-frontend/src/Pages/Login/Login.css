@@ -33,6 +33,10 @@
     align-items: center;
 }
 
+.inputs-container > input {
+    margin-bottom: 16px;
+}
+
 input::placeholder{
     text-align: center;
     color: #386641;
