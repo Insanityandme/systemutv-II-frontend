@@ -19,7 +19,7 @@
 }
 
 
-h1{
+.login-container > h1{
     margin-left: auto;
     margin-right: auto;
     cursor: default;
@@ -38,7 +38,7 @@ input::placeholder{
     color: #386641;
 }
 
-h5{
+.login-container > h5{
     margin-left: auto;
     margin-right: auto;
     cursor: default;
