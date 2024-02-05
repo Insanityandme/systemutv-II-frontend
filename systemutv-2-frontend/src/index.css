@@ -62,7 +62,7 @@ input {
   outline: none;
 }
 
-button {
+button, select {
   background-color: #386641;
   color: #fff;
   padding: 10px;
