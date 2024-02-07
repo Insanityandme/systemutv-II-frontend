@@ -27,6 +27,75 @@ code {
 
 /* index.css */
 
+
+/*Pot & Flower*/
+
+.pot {
+  width: 100%;
+  height: 10vh;
+  padding-top: 3vh;
+  margin-bottom: 3vh;
+  border-bottom:  1px #386641 solid;
+}
+
+.flower {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flower-left-side {
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.flower-image {
+  width: 6vh;
+  height: 6vh;
+  background: #a7c957;
+  border-radius: 10px;
+}
+
+.flower > p {
+  width: 30%;
+  text-align: center;
+}
+
+.flower-info {
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.flower-info-expand{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+}
+
+.info {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  overflow-x: scroll;
+  background: #a7c957;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.info::-webkit-scrollbar {
+  display: none;
+}
+
+/*/Flower*/
+
 /*Navbar*/
 ul {
   display: flex;

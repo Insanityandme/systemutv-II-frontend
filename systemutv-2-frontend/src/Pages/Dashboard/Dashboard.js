@@ -1,6 +1,7 @@
 import './Dashboard.css';
 import Navbar from "../../Navbar";
 import {useState} from "react";
+import Flower from "./Flower";
 
 const Dashboard = () => {
 
@@ -30,7 +31,15 @@ const Dashboard = () => {
                             </select>
                         </div>
                         <div className={"my-plant-panel"}>
-                            <p>here will be my plants</p>
+                            <div className={"pot"}>
+                                <Flower/>
+                            </div>
+                            <div className={"pot"}>
+                                <Flower/>
+                            </div>
+                            <div className={"pot"}>
+                                <Flower/>
+                            </div>
                         </div>
                     </div>
 
