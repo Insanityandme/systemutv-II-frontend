@@ -50,6 +50,11 @@
     margin: auto;
     background: #f2e8cf;
     border-radius: 20px;
+    overflow-x: scroll;
+}
+
+.my-plant-panel::-webkit-scrollbar {
+    display: none;
 }
 
 .side-panel {
@@ -72,6 +77,10 @@
     background: #f2e8cf;
     border-radius: 20px;
     overflow-x: scroll;
+}
+
+.notification-panel::-webkit-scrollbar {
+    display: none;
 }
 
 .notification-panel > p {
@@ -100,4 +109,8 @@
     margin-right: auto;
     padding-top: 5%;
     overflow-x: scroll;
+}
+
+.fun-fact-panel > p::-webkit-scrollbar {
+    display: none;
 }
