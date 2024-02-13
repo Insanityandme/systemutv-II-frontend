@@ -2,10 +2,51 @@ import './Dashboard.css';
 import Navbar from "../../Navbar";
 import {useState} from "react";
 import Flower from "./Flower";
+import {useNavigate} from "react-router-dom";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
 
     const [selectedOption, setSelectedOption] = useState('option1');
+    const [flowers, setFlowers] = useState([]);
+
+    //TODO: OBS! DELETE THIS PUSH METHOD AFTER JOINING WITH DATABASE !!!ONLY FOR DISPLAY PURPOSES!!!
+    flowers.push({
+        image: "",
+        commonName: "Flower",
+        scientificName: "Flos",
+        info: "A flower, also known as a bloom or blossom, " +
+            "is the reproductive structure found in flowering plants " +
+            "(plants of the division Angiospermae). " +
+            "Flowers consist of a combination of vegetative organs – " +
+            "sepals that enclose and protect the developing flower, petals " +
+            "that attract pollinators, and reproductive organs that produce gametophytes, " +
+            "which in flowering plants produce gametes. The male gametophytes, which produce sperm, " +
+            "are enclosed within pollen grains produced in the anthers. The female gametophytes are " +
+            "contained within the ovules produced in the carpels."
+    });
+
+
+    //todo: ----------------------------------------------------------------------------------------------
+    const showFlowers = () => {
+       return flowers.map((flower) => {
+            return (
+                <div className={"pot"}>
+                    <Flower
+                        image ={flower.image}
+                        commonName ={flower.commonName}
+                        scientificName = {flower.scientificName}
+                        info = {flower.info}
+                    />
+                </div>
+            );
+
+        })
+    }
+
+    const toSearch = () =>{
+        navigate('/search');
+    }
 
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
@@ -31,15 +72,13 @@ const Dashboard = () => {
                             </select>
                         </div>
                         <div className={"my-plant-panel"}>
-                            <div className={"pot"}>
-                                <Flower/>
-                            </div>
-                            <div className={"pot"}>
-                                <Flower/>
-                            </div>
-                            <div className={"pot"}>
-                                <Flower/>
-                            </div>
+                            {flowers.length === 0 ?
+                                <div className={"pot"}>
+                                    <button style={{marginLeft: '35%'}} onClick={toSearch}>press me</button>
+                                </div>
+                                :
+                                showFlowers()
+                            }
                         </div>
                     </div>
 
