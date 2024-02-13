@@ -16,6 +16,7 @@
     margin-right: auto;
     margin-top: 20vh;
     border-radius: 20px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.38);
 }
 
 
@@ -24,6 +25,7 @@
     margin-right: auto;
     cursor: default;
     color: #f2e8cf;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
 }
 
 .inputs-container{
@@ -35,6 +37,7 @@
 
 .inputs-container > input {
     margin-bottom: 16px;
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.48);
 }
 
 input::placeholder{
