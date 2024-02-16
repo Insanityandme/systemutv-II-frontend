@@ -26,26 +26,6 @@ const Register = () => {
     }
   };
 
-  const [email, setEmail] = useState('');
-  const [confirmEmail, setConfirmEmail] = useState('');
-  const [emailMatch, setEmailMatch] = useState(false);
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  }
-
-  const handleConfirmEmailChange = (e) => {
-    setConfirmEmail(e.target.value);
-    checkEmailMatch(email, e.target.value);
-  }
-
-  const checkEmailMatch = (email, confirmEmail) => {
-    if (email === confirmEmail) {
-      setEmailMatch(true);
-    } else {
-      setEmailMatch(false);
-    }
-  }
 
   const Submit = () => {
     navigate("/dashboard");
@@ -57,14 +37,8 @@ const Register = () => {
         <h1>Create your garden</h1>
         <div className="form-container">
           <form action="#" method="post" className={"inputs-container"}>
-            <input type="email" id="email" name="email" placeholder="Enter your email"
-                   onChange={handleEmailChange} required/>
-            <input type="email" id="email" name="email" placeholder="Confirm your email"
-                   onChange={handleConfirmEmailChange} style={{borderColor: emailMatch ? "#386641" : "#bc4749"}}
-                   required/>
-
             <input type="username" id="username" name="username" placeholder="Enter your username" required/>
-
+            <input type="email" id="email" name="email" placeholder="Enter your email" required/>
             <input type="password" id="password" name="password" placeholder="Enter your password"
                    onChange={handlePasswordChange} required/>
             <input type="password" id="confirm" name="password" placeholder="Confirm your password"
