@@ -1,6 +1,9 @@
 .login {
     width: 100%;
-    height: 98vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .login-container {
@@ -8,55 +11,73 @@
     flex-direction: column;
     justify-content: space-around;
     background: linear-gradient(45deg, #386641, #a7c957);
-    background-size: 400% 400%;
-    animation: bg-floating 15s ease infinite;
-    width: 30%;
-    height: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20vh;
+    width: 90%;
+    max-width: 400px;
+    height: auto;
+    padding: 20px;
     border-radius: 20px;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.38);
+    animation: bg-floating 15s ease infinite;
 }
 
-
-.login-container > h1{
-    margin-left: auto;
-    margin-right: auto;
-    cursor: default;
-    color: #f2e8cf;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
-}
-
-.inputs-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.inputs-container > input {
+.inputs-container > input, .login-container > button {
+    width: 80%;
+    padding: 10px;
     margin-bottom: 16px;
+    border: 2px solid transparent;
+    border-radius: 5px;
     box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.48);
 }
 
+.inputs-container > input:focus, .login-container > button:focus {
+    outline: none;
+    border-color: #a7c957;
+    background-color: #f4f4f4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        width: 95%;
+        margin-top: 10vh;
+    }
+}
+
+
+@keyframes bg-floating {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+
 input::placeholder{
+    color: #386641;
+}
+
+a:focus, button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #f2e8cf;
+}
+
+.login-container > h1, .login-container > h5 {
     text-align: center;
-    color: #386641;
 }
 
-.login-container > h5{
-    margin-left: auto;
-    margin-right: auto;
-    cursor: default;
+.login-container > h1, .login-container > h5, a {
     color: #f2e8cf;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-a{
-    cursor: pointer;
-    color: #386641;
+a {
+    text-decoration: none;
 }
-a:hover{
+
+a:hover {
     color: #a7c957;
 }
-

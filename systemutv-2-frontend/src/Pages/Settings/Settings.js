@@ -1,12 +1,13 @@
 import './Settings.css';
 import Navbar from "../../Navbar";
 import {useState} from "react";
-
+import { useNavigate } from 'react-router-dom';
 const Settings = () => {
 
     const [notifications, setNotifications] = useState(false);
     const [facts, setFacts] = useState(false);
     const [deleteAcc, setDeleteAcc] = useState(false);
+    const navigate = useNavigate();
 
     const handleNot = (e) => {
         setNotifications(!notifications);
@@ -16,6 +17,9 @@ const Settings = () => {
     }
     const handleDel = (e) => {
         setDeleteAcc(!deleteAcc);
+    }
+    const handleLogOut = (e) => {
+        navigate('/');
     }
 
     return (
@@ -27,7 +31,7 @@ const Settings = () => {
                         <div className={"profile-picture"}>Profile picture</div>
                         {/*with click on profile picture it can be changed*/}
                         <h2>Your name</h2>
-                        <button>Log out</button>
+                        <button onClick={handleLogOut}>Log out</button>
                     </div>
 
                     <div className={"settings-buttons"}>
