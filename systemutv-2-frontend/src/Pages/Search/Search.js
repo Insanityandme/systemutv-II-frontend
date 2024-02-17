@@ -4,7 +4,6 @@ import {useState} from "react";
 import Flower from "../Dashboard/Flower";
 
 const Search = () => {
-
   const [filter, setFilter] = useState('');
   const [plant, setPlant] = useState('');
   const [plants, setPlants] = useState([]);
@@ -61,10 +60,9 @@ const Search = () => {
             <option value="scientific">Scientific name</option>
           </select>
         </div>
-
         <div className={"search-result-panel"}>
+          <p>Hi</p>
         </div>
-
       </div>
     </div>
   );
