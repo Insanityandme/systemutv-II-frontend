@@ -82,7 +82,7 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    <div className={"side-panel"}>
+                            <div className={"side-panel"}>
                         <h2>Notifications</h2>
                         <div className={"notification-panel"}>
                             <p>You need to water plants!</p>
@@ -115,6 +115,6 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
-    );
+);
 }
 export default Dashboard;
