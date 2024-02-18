@@ -49,3 +49,8 @@
     margin-left: auto;
     padding-top: 1%;
 }
+
+.info-title {
+    font-weight: bold;
+    margin-right: 5px;
+}

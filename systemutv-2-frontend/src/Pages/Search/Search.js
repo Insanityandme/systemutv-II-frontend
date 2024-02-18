@@ -34,15 +34,25 @@ const Search = () => {
 
     // Render flowers in the search result panel
     const renderFlowers = () => {
-        return flowers.map((flower, index) => (
+        return (
+            <div className="flowers-grid">
+        {flowers.map((flower, index) => (
             <Flower
                 key={index}
                 image={flower.image_url}
                 commonName={flower.common_name}
                 scientificName={flower.scientific_name}
-                info={flower.synonyms}
+                info={
+                    <>
+                        <span className="info-title">Genus: </span>{flower.genus}<br />
+                        <span className="info-title">Scientific Name: </span>{flower.scientific_name}<br />
+                        <span className="info-title">Family Common Name: </span>{flower.family}
+                    </>
+                }
             />
-        ));
+        ))}
+            </div>
+        );
     };
 
 
@@ -52,7 +62,7 @@ const Search = () => {
             <div className="main-panel-search">
                 <div className="search-buttons">
                     <input
-                        placeholder="Search text here"
+                        placeholder="Search plant here"
                         value={searchTerm}
                         onChange={handleInputChange}
                     />
@@ -65,21 +75,6 @@ const Search = () => {
 
                 <div className="search-result-panel">
                     {flowers.length > 0 ? renderFlowers() : <p>No results to display</p>}
-                </div>
-
-                <div className="search-result-panel">
-                    {flowers.length > 0 ? (
-                        flowers.map((flower, index) => (
-                            <div key={index} className="flower-result">
-                                <img src={flower.imageURL} alt={flower.commonName}
-                                     style={{width: "100px", height: "100px"}}/>
-                                <h3>{flower.commonName}</h3>
-                                <p>{flower.scientificName}</p>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No results to display</p>
-                    )}
                 </div>
             </div>
         </div>
