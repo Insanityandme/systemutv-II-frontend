@@ -10,7 +10,7 @@ export const Flower = (props) => {
         <div className="flower">
             <div className="flower-left-side">
                 <img alt="flower" className="flower-image" src={props.image}/>
-                <p>{props.commonName}</p>
+                <p>{props.commonName !== null ? props.commonName : 'N/A' }</p>
             </div>
             <p>{props.scientificName}</p>
             <div className="flower-info">
