@@ -10,7 +10,7 @@ const Dashboard = () => {
     const [selectedOption, setSelectedOption] = useState('option1');
     const [flowers, setFlowers] = useState([]);
 
-    //TODO: OBS! DELETE THIS PUSH METHOD AFTER JOINING WITH DATABASE !!!ONLY FOR DISPLAY PURPOSES!!!
+
     flowers.push({
         image: "",
         commonName: "Flower",
@@ -27,7 +27,7 @@ const Dashboard = () => {
     });
 
 
-    //todo: ----------------------------------------------------------------------------------------------
+
     const showFlowers = () => {
        return flowers.map((flower) => {
             return (

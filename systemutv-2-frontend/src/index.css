@@ -32,7 +32,7 @@ code {
 
 .pot {
   width: 100%;
-  height: 10vh;
+  height: 20vh;
   padding-top: 3vh;
   margin-bottom: 3vh;
   border-bottom:  1px #386641 solid;
@@ -41,6 +41,8 @@ code {
 .flower {
   display: flex;
   justify-content: space-between;
+  min-width: 100px;
+  min-height: 100px;
 }
 
 .flower-left-side {
@@ -50,8 +52,8 @@ code {
 }
 
 .flower-image {
-  width: 6vh;
-  height: 6vh;
+  width: 100px;
+  height: 100px;
   background: #a7c957;
   border-radius: 10px;
 }
@@ -68,6 +70,16 @@ code {
   align-items: center;
 }
 
+.flower-left-side > p  {
+  width: 50%;
+  margin-left: 5%;
+}
+
+.flower-left-side > img  {
+  width: 50%;
+  margin-left: 5%;
+}
+
 .flower-info-expand{
   width: 50%;
   height: 100%;
@@ -77,6 +89,22 @@ code {
   justify-content: center;
   position: relative;
 
+}
+
+.flower-left-side {
+  width: 25%;
+  display: flex;
+  justify-content: space-around;
+  text-align: left;
+}
+
+.flower-image {
+  width: 60%;
+  height: auto;
+  max-height: 100px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .info {
@@ -115,7 +143,7 @@ ul li a:hover {
 }
 
 ul li a.active {
-  color: #a7c957;
+  color: #3c4d1b;
 }
 /*/Navbar*/
 
