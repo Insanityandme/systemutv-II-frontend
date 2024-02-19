@@ -10,6 +10,9 @@
     background: #6a994e;
     border-radius: 20px;
     box-shadow: 0 0 5px rgba(1, 1, 1, 0.55);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .search-buttons {
@@ -34,7 +37,7 @@
 
 .search-result-panel {
     width: 95%;
-    height: 90%;
+    height: 85%;
     margin-left: auto;
     margin-right: auto;
     background: #f2e8cf;
@@ -42,6 +45,10 @@
     box-shadow: inset 0 0 5px rgba(1, 1, 1, 0.55);
     overflow-y: auto;
     padding-top: 1%;
+}
+
+.search-result-panel::-webkit-scrollbar{
+    display: none;
 }
 
 .info-title {
