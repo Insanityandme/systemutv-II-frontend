@@ -25,6 +25,7 @@ const Search = () => {
                 throw new Error('Failed to fetch flowers');
             }
             const data = await response.json();
+            console.log(data)
             setFlowers(data.data);
         } catch (error) {
             console.error("Error fetching flowers:", error);

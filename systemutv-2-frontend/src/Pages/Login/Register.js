@@ -44,7 +44,7 @@ const Register = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:7002/v1/users', {
+            const response = await fetch('http://localhost:7002/v1/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const Register = () => {
             });
 
             if (response.status === 201) {
-                navigate("/dashboard");
+                navigate("/");
             } else {
                 alert("An error occurred" + response.statusText);
             }

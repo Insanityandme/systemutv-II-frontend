@@ -7,6 +7,7 @@ const Settings = () => {
     const [notifications, setNotifications] = useState(false);
     const [facts, setFacts] = useState(false);
     const [deleteAcc, setDeleteAcc] = useState(false);
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const handleNot = (e) => {
@@ -21,6 +22,35 @@ const Settings = () => {
     const handleLogOut = (e) => {
         navigate('/');
     }
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const deleteUserById = async () => {
+        const userId = sessionStorage.getItem('userId');
+        const url = `http://localhost:7002/v1/users/${userId}`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // Sending password for verification, ensure backend supports this!
+                body: JSON.stringify({ password: password }),
+            });
+
+            if (response.status === 204) {
+                alert("Account successfully deleted.");
+                navigate('/');
+            } else {
+                alert("Error deleting account.");
+            }
+        } catch (error) {
+            alert("Network error: " + error.message);
+        }
+    };
+
 
     return (
         <div className={"profile"}>
@@ -40,11 +70,11 @@ const Settings = () => {
                         <button className={"delete-acc-button"} onClick={handleDel}>Delete account</button>
                         {deleteAcc ?
                             <div className={"delete-notification"}>
-                                <h1>Man are you sure?</h1>
-                                <input type={"password"} placeholder={"Write you password down for confirm"}/>
-                                <button className={"delete-acc-button"}>Delete this shit</button>
-                                <h2>Or you can close if you changed your mind</h2>
-                                <button onClick={handleDel}>Yeah, you right</button>
+                                <h1>Are you sure?</h1>
+                                <input type={"password"} placeholder={"Enter your password to confirm"} onChange={handlePasswordChange}/>
+                                <button className={"delete-acc-button"} onClick={deleteUserById}>Delete Account</button>
+                                <h2>Changed your mind?</h2>
+                                <button onClick={handleDel}>Close</button>
                             </div>
                             :
                             <div>
@@ -56,5 +86,5 @@ const Settings = () => {
             </div>
         </div>
     );
-}
+};
 export default Settings;
