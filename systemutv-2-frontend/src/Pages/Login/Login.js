@@ -17,14 +17,11 @@ const Login = () => {
                 },
                 body: JSON.stringify({email: email, password: password}),
             });
-
             if (response.ok) {
-                const dataText = await response.text();
-                if (dataText === "Login successful") {
+                const data = await response.json();
+                sessionStorage.setItem('userId', data.id);
                     navigate("/dashboard");
-                } else {
-                    alert(dataText);
-                }
+
             } else {
                 const errorText = await response.text();
                 alert('Login failed:  Invalid email or password.' + errorText);
