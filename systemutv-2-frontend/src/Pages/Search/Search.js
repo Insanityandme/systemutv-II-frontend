@@ -20,15 +20,15 @@ const Search = () => {
 
     const fetchFlowers = async () => {
         try {
-            const response = await fetch(`http://localhost:7002/v1/plants/search?plant=${encodeURIComponent(searchTerm)}`);
+            const response = await fetch(`http://localhost:7002/v1/plants?plant=${encodeURIComponent(searchTerm)}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch flowers');
+                 new Error('Failed to fetch flowers');
             }
             const data = await response.json();
             console.log(data)
             setFlowers(data.data);
         } catch (error) {
-            console.error("Error fetching flowers:", error);
+
             setFlowers([]);
         }
     };
