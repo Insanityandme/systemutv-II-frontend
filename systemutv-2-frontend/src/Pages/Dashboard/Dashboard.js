@@ -1,56 +1,70 @@
 import './Dashboard.css';
 import Navbar from "../../Navbar";
-import {useState} from "react";
 import Flower from "./Flower";
 import {useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
 
 const Dashboard = () => {
     const navigate = useNavigate();
-
     const [selectedOption, setSelectedOption] = useState('option1');
     const [flowers, setFlowers] = useState([]);
 
+    // Fetch all plants for the user
+    useEffect(() => {
+        const fetchPlants = async () => {
+            const userId = sessionStorage.getItem('userId'); // Retrieve user ID from sessionStorage
+            if (!userId) {
+                console.error("User ID not found in sessionStorage");
+                return;
+            }
+            try {
+                const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`); // Adjust the endpoint as necessary
 
-    flowers.push({
-        image: "",
-        commonName: "Flower",
-        scientificName: "Flos",
-        info: "A flower, also known as a bloom or blossom, " +
-            "is the reproductive structure found in flowering plants " +
-            "(plants of the division Angiospermae). " +
-            "Flowers consist of a combination of vegetative organs – " +
-            "sepals that enclose and protect the developing flower, petals " +
-            "that attract pollinators, and reproductive organs that produce gametophytes, " +
-            "which in flowering plants produce gametes. The male gametophytes, which produce sperm, " +
-            "are enclosed within pollen grains produced in the anthers. The female gametophytes are " +
-            "contained within the ovules produced in the carpels."
-    });
+                if (!response.ok) {
+                     new Error(`Error fetching plants: ${response.statusText}`);
+                }
+                const data = await response.json();
+                console.log(data);
+                setFlowers(data);
+            } catch (error) {
+                console.error("Failed to fetch plants:", error);
+            }
+        };
 
+        fetchPlants();
+    }, []);
 
+    const handleSelectChange = (e) => {
+        setSelectedOption(e.target.value);
+    };
 
     const showFlowers = () => {
-       return flowers.map((flower) => {
-            return (
-                <div className={"pot"}>
+        return (
+            <div className="flowers-grid">
+                {flowers.map((flower, index) => (
                     <Flower
-                        image ={flower.image}
-                        commonName ={flower.commonName}
-                        scientificName = {flower.scientificName}
-                        info = {flower.info}
+                        id={flower.id}
+                        key={index}
+                        image={flower.imageURL}
+                        commonName={flower.commonName}
+                        scientificName={flower.scientificName}
+                        info={
+                            <>
+                                <span className="info-title">Genus: </span>{flower.genus}<br/>
+                                <span className="info-title">Scientific Name: </span>{flower.scientificName}<br/>
+                                <span className="info-title">Family Common Name: </span>{flower.commonName}
+                            </>
+                        }
                     />
-                </div>
-            );
-
-        })
-    }
+                ))}
+            </div>
+        );
+    };
 
     const toSearch = () =>{
         navigate('/search');
     }
 
-    const handleSelectChange = (e) => {
-        setSelectedOption(e.target.value);
-    };
 
     return (
         <div className={"dashboard"}>
