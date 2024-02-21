@@ -12,13 +12,13 @@ const Dashboard = () => {
     // Fetch all plants for the user
     useEffect(() => {
         const fetchPlants = async () => {
-            const userId = sessionStorage.getItem('userId'); // Retrieve user ID from sessionStorage
+            const userId = sessionStorage.getItem('userId');
             if (!userId) {
                 console.error("User ID not found in sessionStorage");
                 return;
             }
             try {
-                const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`); // Adjust the endpoint as necessary
+                const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`);
 
                 if (!response.ok) {
                      new Error(`Error fetching plants: ${response.statusText}`);
