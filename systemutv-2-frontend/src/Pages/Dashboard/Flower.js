@@ -14,7 +14,11 @@ export const Flower = (props) => {
             <p>{props.scientificName}</p>
             <div className="flower-actions">
                 <button className="info-button" onClick={toggleModal}>Info</button>
-                <button className="add-button" onClick={props.addPlantToUser}>+ Add</button>
+                {props.showDeleteButton ? (
+                    <button className="delete-button" onClick={() => props.deletePlant(props.id)}>Delete</button>
+                ) : (
+                    <button className="add-button" onClick={props.addPlantToUser}>+ Add</button>
+                )}
                 {showModal && (
                     <div className="modal">
                         <div className="modal-content">
