@@ -44,7 +44,6 @@ const Search = () => {
             id: flower.id,
             waterFrequency: 0,
             family: flower.family || "string",
-            familyName: flower.family || "string",
             genus: flower.genus || "string",
             commonName: flower.commonName || "string",
             light: 0,
