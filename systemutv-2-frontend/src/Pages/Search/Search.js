@@ -9,6 +9,11 @@ const Search = () => {
     const [filter, setFilter] = useState('common');
     const [searchTerm, setSearchTerm] = useState('');
     const [flowers, setFlowers] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedFlower, setSelectedFlower] = useState(null);
+    const [operationMessage, setOperationMessage] = useState('');
+    const [isOperationSuccess, setIsOperationSuccess] = useState(false);
+
 
     const handleSelectChange = (e) => {
         setFilter(e.target.value);
@@ -16,6 +21,28 @@ const Search = () => {
 
     const handleInputChange = (e) => {
         setSearchTerm(e.target.value);
+    };
+
+    const NicknameModal = ({ isOpen, onClose, onSubmit }) => {
+        const [nickname, setNickname] = useState('');
+
+        if (!isOpen) return null;
+
+        return (
+            <div className="modal-backdrop">
+                <div className="nickname-modal">
+                    <h1>Enter a Nickname</h1>
+                    <input
+                        type="text"
+                        placeholder="Nickname"
+                        value={nickname}
+                        onChange={(e) => setNickname(e.target.value)}
+                    />
+                    <button onClick={() => onSubmit(nickname)}>Submit</button> {/* Use nickname from state */}
+                    <button onClick={onClose}>Cancel</button>
+                </div>
+            </div>
+        );
     };
 
         const fetchFlowers = async () => {
@@ -32,25 +59,41 @@ const Search = () => {
             }
         };
 
+    const handleAddClick = (flower) => {
+        setSelectedFlower(flower);
+        setIsModalOpen(true);
+    };
+
     // New function to add a plant to a user
-    const addPlantToUser = async (flower) => {
+    const addPlantToUser = async (nickname) => {
         const userId = sessionStorage.getItem('userId');
         if (!userId) {
             console.error("User ID is not available");
             return;
         }
 
+        if (!selectedFlower) {
+            console.error("No flower selected to add");
+            return;
+        }
+// Format current date as yyyy-MM-dd
+        const today = new Date();
+        const lastWatered = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
         const payload = {
-            id: flower.id,
+         //   ...selectedFlower,
+
+            id: selectedFlower.id, // Needs to be fixed
+            commonName: selectedFlower.commonName || "string",
+            scientificName: selectedFlower.scientificName || "string",
+            family: selectedFlower.family || "string",
+            imageURL: selectedFlower.imageURL || "string",
+            nickname: nickname,
+            lastWatered: lastWatered,
             waterFrequency: 0,
-            family: flower.family || "string",
-            genus: flower.genus || "string",
-            commonName: flower.commonName || "string",
+            genus: selectedFlower.genus || "string",
             light: 0,
-            nickname: flower.common_name || "string",
-            scientificName: flower.scientificName || "string",
-            lastWatered: new Date().toISOString().split('T')[0],
-            imageURL: flower.image_url || "string",
+
         };
 
         console.log("Sending payload to server:", payload);
@@ -65,10 +108,16 @@ const Search = () => {
                 body: JSON.stringify(payload),
             });
 
-            if (!response.ok) {
-                 new Error('Failed to add plant to user');
+            if (response.ok) {
+                setOperationMessage("Plant added successfully!");
+                setIsOperationSuccess(true);
+            } else if (response.status === 409) {
+                setOperationMessage("A plant with that nickname already exists.");
+                setIsOperationSuccess(false);
+            } else {
+                setOperationMessage("Failed to add plant due to an unexpected error.");
+                setIsOperationSuccess(false);
             }
-            console.log("Plant added successfully to user");
         } catch (error) {
             console.error("Error adding plant to user:", error);
         }
@@ -83,8 +132,8 @@ const Search = () => {
                             id={flower.id}
                             key={index}
                             image={flower.image_url}
-                            commonName={flower.common_name}
-                            scientificName={flower.scientific_name}
+                            commonName={flower.commonName}
+                            scientificName={flower.scientificName}
                             info={
                                 <>
                                     <span className="info-title">Genus: </span>{flower.genus}<br/>
@@ -92,7 +141,7 @@ const Search = () => {
                                     <span className="info-title">Family Common Name: </span>{flower.family}
                                 </>
                             }
-                            addPlantToUser={() => addPlantToUser(flower)}
+                            addPlantToUser={() => handleAddClick(flower)}
                         />
                     ))}
                 </div>
@@ -117,12 +166,26 @@ const Search = () => {
                         </select>
                     </div>
 
+                    <div className="operation-message" style={{color: isOperationSuccess ? 'green' : 'red'}}>
+                        {operationMessage}
+                    </div>
+
+
                     <div className="search-result-panel">
                         {flowers.length > 0 ? renderFlowers() : <p>No results to display</p>}
                     </div>
                 </div>
+                <NicknameModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={(nickname) => {
+                        addPlantToUser(nickname);
+                        setIsModalOpen(false);
+                    }}
+                />
             </div>
+
         );
 
-    }
+}
 export default Search;

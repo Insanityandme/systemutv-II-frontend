@@ -59,3 +59,55 @@
 .flowers-grid {
     flex-direction: column;
 }
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.nickname-modal {
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    width: 50%;
+    height: 40%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background: #282c34;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.nickname-modal > h1, .nickname-modal > h2 {
+    color: #f2e8cf;
+    text-align: center;
+}
+
+
+.nickname-modal input,
+.nickname-modal button {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.nickname-modal button {
+    background-color: #386641;
+    color: #282c34;
+    cursor: pointer;
+}
+
+.nickname-modal button:hover {
+    background-color: #6a994e;
+}

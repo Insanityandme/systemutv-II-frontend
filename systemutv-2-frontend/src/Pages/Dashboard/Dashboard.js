@@ -48,6 +48,8 @@ const Dashboard = () => {
                         image={flower.imageURL}
                         commonName={flower.commonName}
                         scientificName={flower.scientificName}
+
+
                         info={
                             <>
                                 <span className="info-title">Genus: </span>{flower.genus}<br/>
@@ -83,7 +85,7 @@ const Dashboard = () => {
                  new Error(`Error deleting plant: ${response.statusText}`);
             }
 
-            setFlowers(flowers.filter(flower => flower.id !== plantId));
+            setFlowers(flowers.filter(flower => flower.id !== plantId)); // Needs to be fixed
         } catch (error) {
             console.error("Failed to delete plant:", error);
         }
