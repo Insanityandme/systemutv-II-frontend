@@ -84,10 +84,10 @@ const Search = () => {
          //   ...selectedFlower,
 
             id: selectedFlower.id, // Needs to be fixed
-            commonName: selectedFlower.commonName || "string",
-            scientificName: selectedFlower.scientificName || "string",
+            commonName: selectedFlower.common_name || "string",
+            scientificName: selectedFlower.scientific_name || "string",
             family: selectedFlower.family || "string",
-            imageURL: selectedFlower.imageURL || "string",
+            imageURL: selectedFlower.image_url || "string",
             nickname: nickname,
             lastWatered: lastWatered,
             waterFrequency: 0,
@@ -132,8 +132,8 @@ const Search = () => {
                             id={flower.id}
                             key={index}
                             image={flower.image_url}
-                            commonName={flower.commonName}
-                            scientificName={flower.scientificName}
+                            commonName={flower.common_name}
+                            scientificName={flower.scientific_name}
                             info={
                                 <>
                                     <span className="info-title">Genus: </span>{flower.genus}<br/>

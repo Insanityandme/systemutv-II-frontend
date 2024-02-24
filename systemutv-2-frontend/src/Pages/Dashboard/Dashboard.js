@@ -46,8 +46,8 @@ const Dashboard = () => {
                         id={flower.id}
                         key={index}
                         image={flower.imageURL}
-                        commonName={flower.commonName}
-                        scientificName={flower.scientificName}
+                        commonName={flower.nickname}
+                        scientificName={flower.lastWatered}
 
 
                         info={
