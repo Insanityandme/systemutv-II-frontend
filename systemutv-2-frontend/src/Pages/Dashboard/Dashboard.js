@@ -149,19 +149,35 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                            <div className={"side-panel"}>
-                        <h2>Notifications</h2>
-                        <div className={"notification-panel"}>
-                            <p>You need to water plants!</p>
-                            <p>Man, they will die</p>
-                            <p>Last chance!</p>
-                        </div>
-                        <h2>Did you know that?</h2>
-                        <div className={"fun-fact-panel"}>
-                          <p>{fact}</p>
-                        </div>
-                    </div>
-
+                    {sessionStorage.getItem('notifications') === "false" &&
+                      sessionStorage.getItem('funFacts') === "false" ? null :
+                      <>
+                          <div className={"side-panel"}>
+                              {sessionStorage.getItem('notifications') === "true" ?
+                                <>
+                                    <h2>Notifications</h2>
+                                    <div className={"notification-panel"}>
+                                        <p>You need to water plants!</p>
+                                        <p>Man, they will die</p>
+                                        <p>Last chance!</p>
+                                    </div>
+                                </>
+                                :
+                                null
+                              }
+                              {sessionStorage.getItem('funFacts') === "true" ?
+                                <>
+                                    <h2>Did you know that?</h2>
+                                    <div className={"fun-fact-panel"}>
+                                        <p>{fact}</p>
+                                    </div>
+                                </>
+                                :
+                                null
+                              }
+                          </div>
+                      </>
+                    }
                 </div>
             </div>
         </div>
