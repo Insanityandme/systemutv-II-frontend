@@ -8,6 +8,15 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [selectedOption, setSelectedOption] = useState('option1');
     const [flowers, setFlowers] = useState([]);
+    const [fact, setFact] = useState();
+
+    // create a function that takes in a date and returns the number of days since that date
+    const daysSince = (date) => {
+        const now = new Date();
+        const then = new Date(date);
+        const diff = now - then;
+        return Math.floor(diff / (1000 * 60 * 60 * 24));
+    }
 
     // Fetch all plants for the user
     useEffect(() => {
@@ -46,20 +55,28 @@ const Dashboard = () => {
                         id={flower.id}
                         key={index}
                         image={flower.imageURL}
-                        commonName={flower.nickname}
-                        scientificName={flower.lastWatered}
-
-
+                        nickname={
+                          <>
+                            <b>Name</b><br/>
+                            {flower.nickname}
+                          </>
+                        }
+                        lastWatered={
+                          <><b>Last watered</b><br/>
+                            {flower.lastWatered}<br/>
+                            {daysSince(flower.lastWatered)} days ago
+                            </>
+                        }
                         info={
                             <>
                                 <span className="info-title">Genus: </span>{flower.genus}<br/>
+                                <span className="info-title">Family</span>{flower.family}<br/>
                                 <span className="info-title">Scientific Name: </span>{flower.scientificName}<br/>
                                 <span className="info-title">Family Common Name: </span>{flower.commonName}
                             </>
                         }
                         deletePlant={deletePlant}
                         showDeleteButton={true}
-
                     />
                 ))}
             </div>
@@ -91,6 +108,16 @@ const Dashboard = () => {
         }
     };
 
+    useEffect(() => {
+        const fetchFact = async () => {
+            const funFactId = Math.floor(Math.random() * 42) + 1;
+            const response = await fetch(`http://localhost:7002/v1/facts/${funFactId}`);
+            const data = await response.json();
+            setFact(data);
+        };
+
+        fetchFact();
+    }, []);
 
     return (
         <div className={"dashboard"}>
@@ -126,29 +153,12 @@ const Dashboard = () => {
                         <h2>Notifications</h2>
                         <div className={"notification-panel"}>
                             <p>You need to water plants!</p>
-                            <p>I'm not joking</p>
-                            <p>Man, fr</p>
-                            <p>Man, please</p>
                             <p>Man, they will die</p>
-                            <p>Mf, do it now!</p>
                             <p>Last chance!</p>
-                            <p>I call the police</p>
-                            <p>They coming</p>
-                            <p>I farted under your pillow</p>
-                            <p>I ate taco as well</p>
-
                         </div>
                         <h2>Did you know that?</h2>
                         <div className={"fun-fact-panel"}>
-                            <p>Lorem ipsum dolor sit amet,
-                                consectetur adipiscing elit.
-                                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip ex ea commodo consequat.
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
+                          <p>{fact}</p>
                         </div>
                     </div>
 

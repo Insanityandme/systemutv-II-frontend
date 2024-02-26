@@ -9,9 +9,9 @@ export const Flower = (props) => {
         <div className="flower">
             <div className="flower-left-side">
                 <img alt="flower" className="flower-image" src={props.image}/>
-                <p>{props.commonName !== null ? props.commonName : 'N/A'}</p>
+                <p>{props.nickname !== null ? props.nickname : 'N/A'}</p>
             </div>
-            <p>{props.scientificName}</p>
+            <p>{props.lastWatered}</p>
             <div className="flower-actions">
                 <button className="info-button" onClick={toggleModal}>Info</button>
                 {props.showDeleteButton ? (
