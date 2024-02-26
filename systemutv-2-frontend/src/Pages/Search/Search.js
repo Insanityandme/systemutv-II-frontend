@@ -76,7 +76,7 @@ const Search = () => {
             console.error("No flower selected to add");
             return;
         }
-// Format current date as yyyy-MM-dd
+        // Format current date as yyyy-MM-dd
         const today = new Date();
         const lastWatered = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
@@ -97,7 +97,6 @@ const Search = () => {
         };
 
         console.log("Sending payload to server:", payload);
-
 
         try {
             const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`, {
@@ -132,8 +131,8 @@ const Search = () => {
                             id={flower.id}
                             key={index}
                             image={flower.image_url}
-                            commonName={flower.common_name}
-                            scientificName={flower.scientific_name}
+                            nickname={flower.common_name}
+                            lastWatered={flower.scientific_name}
                             info={
                                 <>
                                     <span className="info-title">Genus: </span>{flower.genus}<br/>
@@ -147,7 +146,6 @@ const Search = () => {
                 </div>
             );
         };
-
 
         return (
             <div className="search">
