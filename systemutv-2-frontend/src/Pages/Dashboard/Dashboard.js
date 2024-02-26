@@ -46,8 +46,10 @@ const Dashboard = () => {
                         id={flower.id}
                         key={index}
                         image={flower.imageURL}
-                        commonName={flower.commonName}
-                        scientificName={flower.scientificName}
+                        commonName={flower.nickname}
+                        scientificName={flower.lastWatered}
+
+
                         info={
                             <>
                                 <span className="info-title">Genus: </span>{flower.genus}<br/>
@@ -55,6 +57,9 @@ const Dashboard = () => {
                                 <span className="info-title">Family Common Name: </span>{flower.commonName}
                             </>
                         }
+                        deletePlant={deletePlant}
+                        showDeleteButton={true}
+
                     />
                 ))}
             </div>
@@ -64,6 +69,27 @@ const Dashboard = () => {
     const toSearch = () =>{
         navigate('/search');
     }
+
+    const deletePlant = async (plantId) => {
+        const userId = sessionStorage.getItem('userId');
+        if (!userId) {
+            console.error("User ID not found in sessionStorage");
+            return;
+        }
+        try {
+            const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants/${plantId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                 new Error(`Error deleting plant: ${response.statusText}`);
+            }
+
+            setFlowers(flowers.filter(flower => flower.id !== plantId)); // Needs to be fixed
+        } catch (error) {
+            console.error("Failed to delete plant:", error);
+        }
+    };
 
 
     return (
