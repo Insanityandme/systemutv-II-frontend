@@ -2,6 +2,7 @@ import './Settings.css';
 import Navbar from "../../Navbar";
 import {useState} from "react";
 import { useNavigate } from 'react-router-dom';
+
 const Settings = () => {
     // get the current state of notifications and fun facts from fetching the user data by id
     const getUserData = async () => {
@@ -13,6 +14,9 @@ const Settings = () => {
                 const data = await response.json();
                 sessionStorage.setItem('notifications', data.isNotificationsActivated);
                 sessionStorage.setItem('funFacts', data.funFactsActivated);
+
+                setFacts(data.funFactsActivated)
+                setNotifications(data.isNotificationsActivated);
             } else {
                 alert("Error fetching user data.");
             }
@@ -21,7 +25,10 @@ const Settings = () => {
         }
     }
 
-    getUserData();
+    getUserData().then(r => {
+        console.log("User data fetched successfully.");
+    });
+
     const isNotificationsActive = sessionStorage.getItem('notifications');
     const isFunFactsActivated = sessionStorage.getItem('funFacts');
 
@@ -34,14 +41,13 @@ const Settings = () => {
     const handleNot = async() => {
         const userId = sessionStorage.getItem('userId');
         const url = `http://localhost:7002/v1/users/${userId}`;
+        let notification = sessionStorage.getItem('notifications');
 
-        if (notifications === "true") {
-            setNotifications("false");
-        } else if (notifications === "false") {
-            setNotifications("true");
+        if (notification === "true") {
+            notification = false;
+        } else if (notification === "false") {
+            notification = true;
         }
-
-        console.log(notifications);
 
         try {
             const response = await fetch(url, {
@@ -50,22 +56,49 @@ const Settings = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    notificationsActivated: notifications,
+                    notificationsActivated: notification,
                 }),
             });
 
             if (response.ok) {
-                alert("Notifications updated successfully.");
+                setNotifications("false");
             } else {
-                alert("Error updating notifications.");
+                setNotifications("true");
             }
         } catch (error) {
             alert("Network error: " + error.message);
         }
-
     }
-    const handleFun = (e) => {
-        setFacts(facts);
+    const handleFact = async() => {
+        const userId = sessionStorage.getItem('userId');
+        const url = `http://localhost:7002/v1/users/${userId}`;
+        let fact = sessionStorage.getItem('funFacts');
+
+        if (fact === "true") {
+            fact = false;
+        } else if (fact === "false") {
+            fact = true;
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    funFactsActivated: fact,
+                }),
+            });
+
+            if (response.ok) {
+                setFacts("false");
+            } else {
+                setFacts("true");
+            }
+        } catch (error) {
+            alert("Network error: " + error.message);
+        }
     }
     const handleDel = (e) => {
         setDeleteAcc(!deleteAcc);
@@ -102,31 +135,6 @@ const Settings = () => {
         }
     };
 
-    const updateNotifications = async (isActive) => {
-        const userId = sessionStorage.getItem('userId');
-        const url = `http://localhost:7002/v1/users/${userId}`;
-        try {
-            const response = await fetch(url, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    notificationsActivated: isActive,
-                }),
-            });
-
-            if (response.ok) {
-                alert("Notifications updated successfully.");
-            } else {
-                alert("Error updating notifications.");
-            }
-        } catch (error) {
-            alert("Network error: " + error.message);
-        }
-    }
-
-
     return (
         <div className={"profile"}>
             <Navbar/>
@@ -141,7 +149,7 @@ const Settings = () => {
 
                     <div className={"settings-buttons"}>
                         <button onClick={handleNot}>{notifications ? "Notifications off" : "Notifications on"}</button>
-                        <button onClick={handleFun}>{facts ? "Facts off" : "Facts on"}</button>
+                        <button onClick={handleFact}>{facts ? "Facts off" : "Facts on"}</button>
                         <button className={"delete-acc-button"} onClick={handleDel}>Delete account</button>
                         {deleteAcc ?
                             <div className={"delete-notification"}>
