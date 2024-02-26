@@ -3,6 +3,25 @@ import Navbar from "../../Navbar";
 import {useState} from "react";
 import { useNavigate } from 'react-router-dom';
 const Settings = () => {
+    // get the current state of notifications and fun facts from fetching the user data by id
+    const getUserData = async () => {
+        const userId = sessionStorage.getItem('userId');
+        const url = `http://localhost:7002/v1/users/${userId}`;
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+                const data = await response.json();
+                sessionStorage.setItem('notifications', data.isNotificationsActivated);
+                sessionStorage.setItem('funFacts', data.funFactsActivated);
+            } else {
+                alert("Error fetching user data.");
+            }
+        } catch (error) {
+            alert("Network error: " + error.message);
+        }
+    }
+
+    getUserData();
     const isNotificationsActive = sessionStorage.getItem('notifications');
     const isFunFactsActivated = sessionStorage.getItem('funFacts');
 
@@ -15,6 +34,15 @@ const Settings = () => {
     const handleNot = async() => {
         const userId = sessionStorage.getItem('userId');
         const url = `http://localhost:7002/v1/users/${userId}`;
+
+        if (notifications === "true") {
+            setNotifications("false");
+        } else if (notifications === "false") {
+            setNotifications("true");
+        }
+
+        console.log(notifications);
+
         try {
             const response = await fetch(url, {
                 method: 'PATCH',
@@ -22,7 +50,7 @@ const Settings = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    notificationsActivated: !notifications,
+                    notificationsActivated: notifications,
                 }),
             });
 
@@ -35,7 +63,6 @@ const Settings = () => {
             alert("Network error: " + error.message);
         }
 
-        setNotifications(notifications);
     }
     const handleFun = (e) => {
         setFacts(facts);
