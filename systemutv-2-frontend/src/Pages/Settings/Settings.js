@@ -3,18 +3,42 @@ import Navbar from "../../Navbar";
 import {useState} from "react";
 import { useNavigate } from 'react-router-dom';
 const Settings = () => {
+    const isNotificationsActive = sessionStorage.getItem('notifications');
+    const isFunFactsActivated = sessionStorage.getItem('funFacts');
 
-    const [notifications, setNotifications] = useState(false);
-    const [facts, setFacts] = useState(false);
+    const [notifications, setNotifications] = useState(isNotificationsActive);
+    const [facts, setFacts] = useState(isFunFactsActivated);
     const [deleteAcc, setDeleteAcc] = useState(false);
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleNot = (e) => {
-        setNotifications(!notifications);
+    const handleNot = async() => {
+        const userId = sessionStorage.getItem('userId');
+        const url = `http://localhost:7002/v1/users/${userId}`;
+        try {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    notificationsActivated: !notifications,
+                }),
+            });
+
+            if (response.ok) {
+                alert("Notifications updated successfully.");
+            } else {
+                alert("Error updating notifications.");
+            }
+        } catch (error) {
+            alert("Network error: " + error.message);
+        }
+
+        setNotifications(notifications);
     }
     const handleFun = (e) => {
-        setFacts(!facts);
+        setFacts(facts);
     }
     const handleDel = (e) => {
         setDeleteAcc(!deleteAcc);
@@ -51,6 +75,30 @@ const Settings = () => {
         }
     };
 
+    const updateNotifications = async (isActive) => {
+        const userId = sessionStorage.getItem('userId');
+        const url = `http://localhost:7002/v1/users/${userId}`;
+        try {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    notificationsActivated: isActive,
+                }),
+            });
+
+            if (response.ok) {
+                alert("Notifications updated successfully.");
+            } else {
+                alert("Error updating notifications.");
+            }
+        } catch (error) {
+            alert("Network error: " + error.message);
+        }
+    }
+
 
     return (
         <div className={"profile"}>
@@ -65,8 +113,8 @@ const Settings = () => {
                     </div>
 
                     <div className={"settings-buttons"}>
-                        <button onClick={handleNot}>{notifications ? "Notifications on" : "Notifications off"}</button>
-                        <button onClick={handleFun}>{facts ? "Facts on" : "Facts off"}</button>
+                        <button onClick={handleNot}>{notifications ? "Notifications off" : "Notifications on"}</button>
+                        <button onClick={handleFun}>{facts ? "Facts off" : "Facts on"}</button>
                         <button className={"delete-acc-button"} onClick={handleDel}>Delete account</button>
                         {deleteAcc ?
                             <div className={"delete-notification"}>

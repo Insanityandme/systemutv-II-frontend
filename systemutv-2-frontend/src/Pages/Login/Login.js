@@ -20,7 +20,9 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
                 sessionStorage.setItem('userId', data.id);
-                    navigate("/dashboard");
+                sessionStorage.setItem('notifications', data.isNotificationsActivated);
+                sessionStorage.setItem('funFacts', data.funFactsActivated);
+                navigate("/dashboard");
 
             } else {
                 const errorText = await response.text();
