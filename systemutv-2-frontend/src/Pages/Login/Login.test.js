@@ -39,7 +39,7 @@ test('testLoginRedirectionToRegister', async () => {
 });
 
 
-test('login with valid credentials', async () => {
+test('login with valid credentials - redirection', async () => {
     render(
         <BrowserRouter>
             <Login />
@@ -50,13 +50,32 @@ test('login with valid credentials', async () => {
     const passwordInput = screen.getByPlaceholderText('Enter your password');
     const loginButton = screen.getByText('Log in');
 
-    fireEvent.change(emailInput, { target: { value: 'example@example.com' } });
+    fireEvent.change(emailInput, { target: { value: 'example@example.org' } });
+    fireEvent.change(passwordInput, { target: { value: 'example' } });
+    fireEvent.click(loginButton);
+
+    await waitFor(() => {
+        expect(window.location.pathname).toBe('/dashboard');
+    });
+});
+
+test('login with valid credentials - user token', async () => {
+    render(
+        <BrowserRouter>
+            <Login />
+        </BrowserRouter>
+    );
+
+    const emailInput = screen.getByPlaceholderText('Enter your email');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const loginButton = screen.getByText('Log in');
+
+    fireEvent.change(emailInput, { target: { value: 'example@example.org' } });
     fireEvent.change(passwordInput, { target: { value: 'example' } });
     fireEvent.click(loginButton);
 
     await waitFor(() => {
         expect(sessionStorage.getItem('userId')).not.toBeNull();
-        expect(window.location.pathname).toBe('/dashboard');
     });
 });
 
@@ -71,13 +90,13 @@ test('login with invalid credentials', async () => {
     const passwordInput = screen.getByPlaceholderText('Enter your password');
     const loginButton = screen.getByText('Log in');
 
-    fireEvent.change(emailInput, { target: { value: 'invalid@example.com' } });
+    fireEvent.change(emailInput, { target: { value: 'invalid@example.org' } });
     fireEvent.change(passwordInput, { target: { value: 'invalid' } });
     fireEvent.click(loginButton);
 
     await waitFor(() => {
-        expect(sessionStorage.getItem('userId')).not.toBeNull();
-        expect(window.location.pathname).toBe('/dashboard');
+        const alertElement = screen.getByText(/'Login failed:  Invalid email or password.'/i); //todo: fix alert
+        expect(alertElement).toBeInTheDocument();
     });
 });
 
@@ -92,7 +111,7 @@ test('Login with invalid login', async () => {
     const passwordInput = screen.getByPlaceholderText('Enter your password');
     const loginButton = screen.getByText('Log in');
 
-    fireEvent.change(emailInput, { target: { value: 'invalid@example.com' } });
+    fireEvent.change(emailInput, { target: { value: 'invalid@example.org' } });
     fireEvent.change(passwordInput, { target: { value: 'example' } });
     fireEvent.click(loginButton);
 
@@ -113,7 +132,7 @@ test('Login with invalid password', async () => {
     const passwordInput = screen.getByPlaceholderText('Enter your password');
     const loginButton = screen.getByText('Log in');
 
-    fireEvent.change(emailInput, { target: { value: 'example@example.com' } });
+    fireEvent.change(emailInput, { target: { value: 'example@example.org' } });
     fireEvent.change(passwordInput, { target: { value: 'invalid' } });
     fireEvent.click(loginButton);
 
@@ -138,7 +157,7 @@ test('displays network error message when unable to connect to server', async ()
     // Mocking the fetch function to simulate network error
     jest.spyOn(global, 'fetch').mockRejectedValue(new Error('Network Error'));
 
-    fireEvent.change(emailInput, { target: { value: 'example@example.com' } });
+    fireEvent.change(emailInput, { target: { value: 'example@example.org' } });
     fireEvent.change(passwordInput, { target: { value: 'example' } });
     fireEvent.click(loginButton);
 
@@ -165,7 +184,7 @@ test('displays network error message when no network connection', async () => {
     // Mocking the fetch function to simulate network error
     jest.spyOn(global, 'fetch').mockRejectedValue(new Error('Network Error'));
 
-    fireEvent.change(emailInput, { target: { value: 'example@example.com' } });
+    fireEvent.change(emailInput, { target: { value: 'example@example.org' } });
     fireEvent.change(passwordInput, { target: { value: 'example' } });
     fireEvent.click(loginButton);
 
