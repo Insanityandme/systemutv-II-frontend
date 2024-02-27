@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Login from './Login';
+import Login from '../Pages/Login/Login';
 import {BrowserRouter} from "react-router-dom";
-import App from "../../App";
+import App from "../App";
 
 
 test('testLoginRender', async () => {
