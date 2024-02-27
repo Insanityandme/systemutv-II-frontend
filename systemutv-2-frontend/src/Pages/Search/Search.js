@@ -123,7 +123,7 @@ const Search = () => {
                 setIsOperationSuccess(false);
             }
         } catch (error) {
-            console.error("Error adding plant to user:", error);
+            setErrorText(error.message);
         }
     };
 
