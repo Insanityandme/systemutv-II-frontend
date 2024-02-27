@@ -1,11 +1,11 @@
 import './Search.css';
 import Flower from "../Dashboard/Flower";
 import Navbar from "../../Navbar";
-import {useState} from "react";
+import React, {useState} from "react";
+import Notification from "../../Notification";
 
 
 const Search = () => {
-
     const [filter, setFilter] = useState('common');
     const [searchTerm, setSearchTerm] = useState('');
     const [flowers, setFlowers] = useState([]);
@@ -13,7 +13,7 @@ const Search = () => {
     const [selectedFlower, setSelectedFlower] = useState(null);
     const [operationMessage, setOperationMessage] = useState('');
     const [isOperationSuccess, setIsOperationSuccess] = useState(false);
-
+    const [errorText, setErrorText] = useState('');
 
     const handleSelectChange = (e) => {
         setFilter(e.target.value);
@@ -49,13 +49,14 @@ const Search = () => {
             try {
                 const response = await fetch(`http://localhost:7002/v1/plants?plant=${encodeURIComponent(searchTerm)}`);
                 if (!response.ok) {
-                    new Error('Failed to fetch flowers');
+                    const errorText = await response.text();
+                    setErrorText(errorText);
                 }
                 const data = await response.json();
                 setFlowers(data.data);
             } catch (error) {
-
                 setFlowers([]);
+                setErrorText(error.message);
             }
         };
 
@@ -74,6 +75,7 @@ const Search = () => {
 
         if (!selectedFlower) {
             console.error("No flower selected to add");
+            setErrorText("No flower selected to add");
             return;
         }
         // Format current date as yyyy-MM-dd
@@ -113,6 +115,9 @@ const Search = () => {
             } else if (response.status === 409) {
                 setOperationMessage("A plant with that nickname already exists.");
                 setIsOperationSuccess(false);
+
+                const errorText = await response.text();
+                setErrorText(errorText);
             } else {
                 setOperationMessage("Failed to add plant due to an unexpected error.");
                 setIsOperationSuccess(false);
@@ -149,6 +154,13 @@ const Search = () => {
 
         return (
             <div className="search">
+                { errorText ?
+                  <Notification
+                    text={errorText}
+                  />
+                  :
+                  null
+                }
                 <Navbar/>
                 <div className="main-panel-search">
                     <div className="search-buttons">

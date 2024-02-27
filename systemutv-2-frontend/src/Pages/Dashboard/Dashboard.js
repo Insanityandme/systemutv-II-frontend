@@ -3,12 +3,14 @@ import Navbar from "../../Navbar";
 import Flower from "./Flower";
 import {useNavigate} from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import Notification from "../../Notification";
 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [selectedOption, setSelectedOption] = useState('option1');
     const [flowers, setFlowers] = useState([]);
     const [fact, setFact] = useState();
+    const [errorText, setErrorText] = useState('');
 
     // create a function that takes in a date and returns the number of days since that date
     const daysSince = (date) => {
@@ -30,13 +32,14 @@ const Dashboard = () => {
                 const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`);
 
                 if (!response.ok) {
-                     new Error(`Error fetching plants: ${response.statusText}`);
+                    const errorText = await response.text();
+                    setErrorText(errorText);
                 }
                 const data = await response.json();
                 console.log(data);
                 setFlowers(data);
             } catch (error) {
-                console.error("Failed to fetch plants:", error);
+                setErrorText(error.message);
             }
         };
 
@@ -68,7 +71,7 @@ const Dashboard = () => {
                 setFlowers(nextFlowers);
             }
             else {
-                alert(e.statusMessage);
+                setErrorText(e.statusMessage);
             }
         })
     }
@@ -129,12 +132,13 @@ const Dashboard = () => {
             });
 
             if (!response.ok) {
-                 new Error(`Error deleting plant: ${response.statusText}`);
+                 const errorText = await response.text();
+                 setErrorText(errorText);
             }
 
             setFlowers(flowers.filter(flower => flower.id !== plantId)); // Needs to be fixed
         } catch (error) {
-            console.error("Failed to delete plant:", error);
+            setErrorText(error.message);
         }
     };
 
@@ -151,6 +155,13 @@ const Dashboard = () => {
 
     return (
         <div className={"dashboard"}>
+            { errorText ?
+              <Notification
+                text={errorText}
+              />
+              :
+              null
+            }
             <Navbar/>
             <div className={"main-panel-dashboard"}>
 
