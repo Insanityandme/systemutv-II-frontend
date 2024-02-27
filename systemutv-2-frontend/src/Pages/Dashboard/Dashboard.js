@@ -3,6 +3,7 @@ import Navbar from "../../Navbar";
 import Flower from "./Flower";
 import {useNavigate} from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import flower from "./Flower";
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -42,6 +43,29 @@ const Dashboard = () => {
 
         fetchPlants();
     }, []);
+
+    // update all plants by watering them using fetch
+    const waterAllPlants = async() => {
+        const userId = sessionStorage.getItem('userId');
+        const url = `http://localhost:7002/v1/users/${userId}/plants`;
+        const date = new Date().toISOString().slice(0, 10);
+
+        const response = fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                lastWatered: date
+            })
+        });
+
+        if (response.ok) {
+
+        } else {
+            console.log("it failed");
+        }
+    }
 
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
@@ -129,7 +153,7 @@ const Dashboard = () => {
                     <div className={"my-plant"}>
 
                         <div className={"dashboard-buttons"}>
-                            <button>Water all plants</button>
+                            <button onClick={waterAllPlants}>Water all plants</button>
                             <button>Expand all</button>
                             <button>Collapse all</button>
                             <select id="dropdown" value={selectedOption} onChange={handleSelectChange}>
@@ -149,19 +173,35 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                            <div className={"side-panel"}>
-                        <h2>Notifications</h2>
-                        <div className={"notification-panel"}>
-                            <p>You need to water plants!</p>
-                            <p>Man, they will die</p>
-                            <p>Last chance!</p>
-                        </div>
-                        <h2>Did you know that?</h2>
-                        <div className={"fun-fact-panel"}>
-                          <p>{fact}</p>
-                        </div>
-                    </div>
-
+                    {sessionStorage.getItem('notifications') === "false" &&
+                      sessionStorage.getItem('funFacts') === "false" ? null :
+                      <>
+                          <div className={"side-panel"}>
+                              {sessionStorage.getItem('notifications') === "true" ?
+                                <>
+                                    <h2>Notifications</h2>
+                                    <div className={"notification-panel"}>
+                                        <p>You need to water plants!</p>
+                                        <p>Man, they will die</p>
+                                        <p>Last chance!</p>
+                                    </div>
+                                </>
+                                :
+                                null
+                              }
+                              {sessionStorage.getItem('funFacts') === "true" ?
+                                <>
+                                    <h2>Did you know that?</h2>
+                                    <div className={"fun-fact-panel"}>
+                                        <p>{fact}</p>
+                                    </div>
+                                </>
+                                :
+                                null
+                              }
+                          </div>
+                      </>
+                    }
                 </div>
             </div>
         </div>
