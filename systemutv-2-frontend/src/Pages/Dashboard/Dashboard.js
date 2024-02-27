@@ -3,7 +3,6 @@ import Navbar from "../../Navbar";
 import Flower from "./Flower";
 import {useNavigate} from "react-router-dom";
 import React, { useEffect, useState } from 'react';
-import flower from "./Flower";
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -60,11 +59,18 @@ const Dashboard = () => {
             })
         });
 
-        if (response.ok) {
-
-        } else {
-            console.log("it failed");
-        }
+        response.then((e) => {
+            if (e.ok) {
+                const nextFlowers = flowers.map((flower) => {
+                    flower.lastWatered = date;
+                    return(flower)
+                })
+                setFlowers(nextFlowers);
+            }
+            else {
+                alert(e.statusMessage);
+            }
+        })
     }
 
     const handleSelectChange = (e) => {
