@@ -50,6 +50,7 @@
     width: 98%;
     height: 85%;
     margin: auto;
+    padding-top: 10px;
     background: #f2e8cf;
     border-radius: 20px;
     overflow-x: scroll;
