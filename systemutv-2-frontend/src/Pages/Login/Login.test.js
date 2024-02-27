@@ -50,8 +50,29 @@ test('login with valid credentials', async () => {
     const passwordInput = screen.getByPlaceholderText('Enter your password');
     const loginButton = screen.getByText('Log in');
 
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } }); //TODO: CHANGE TO VALID CREDENTIALS
-    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.change(emailInput, { target: { value: 'example@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'example' } });
+    fireEvent.click(loginButton);
+
+    await waitFor(() => {
+        expect(sessionStorage.getItem('userId')).not.toBeNull();
+        expect(window.location.pathname).toBe('/dashboard');
+    });
+});
+
+test('login with invalid credentials', async () => {
+    render(
+        <BrowserRouter>
+            <Login />
+        </BrowserRouter>
+    );
+
+    const emailInput = screen.getByPlaceholderText('Enter your email');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const loginButton = screen.getByText('Log in');
+
+    fireEvent.change(emailInput, { target: { value: 'invalid@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'invalid' } });
     fireEvent.click(loginButton);
 
     await waitFor(() => {
@@ -72,11 +93,32 @@ test('Login with invalid login', async () => {
     const loginButton = screen.getByText('Log in');
 
     fireEvent.change(emailInput, { target: { value: 'invalid@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'invalidpassword' } });
+    fireEvent.change(passwordInput, { target: { value: 'example' } });
     fireEvent.click(loginButton);
 
     await waitFor(() => {
-        const alertElement = screen.getByText(/'Login failed:  Invalid email or password.'/i);
+        const alertElement = screen.getByText(/'Login failed:  Invalid email or password.'/i); //todo: fix alert
+        expect(alertElement).toBeInTheDocument();
+    });
+});
+
+test('Login with invalid password', async () => {
+    render(
+        <BrowserRouter>
+            <Login />
+        </BrowserRouter>
+    );
+
+    const emailInput = screen.getByPlaceholderText('Enter your email');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const loginButton = screen.getByText('Log in');
+
+    fireEvent.change(emailInput, { target: { value: 'example@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'invalid' } });
+    fireEvent.click(loginButton);
+
+    await waitFor(() => {
+        const alertElement = screen.getByText(/'Login failed:  Invalid email or password.'/i); //todo: fix alert
         expect(alertElement).toBeInTheDocument();
     });
 });
@@ -96,8 +138,8 @@ test('displays network error message when unable to connect to server', async ()
     // Mocking the fetch function to simulate network error
     jest.spyOn(global, 'fetch').mockRejectedValue(new Error('Network Error'));
 
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.change(emailInput, { target: { value: 'example@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'example' } });
     fireEvent.click(loginButton);
 
     await waitFor(() => {
@@ -109,4 +151,29 @@ test('displays network error message when unable to connect to server', async ()
     global.fetch.mockRestore();
 });
 
+test('displays network error message when no network connection', async () => {
+    render(
+        <BrowserRouter>
+            <Login />
+        </BrowserRouter>
+    );
 
+    const emailInput = screen.getByPlaceholderText('Enter your email');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const loginButton = screen.getByText('Log in');
+
+    // Mocking the fetch function to simulate network error
+    jest.spyOn(global, 'fetch').mockRejectedValue(new Error('Network Error'));
+
+    fireEvent.change(emailInput, { target: { value: 'example@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'example' } });
+    fireEvent.click(loginButton);
+
+    await waitFor(() => {
+        const alertElement = screen.getByText('Network error: Failed to fetch');
+        expect(alertElement).toBeInTheDocument();
+    });
+
+    // Restore the original fetch function
+    global.fetch.mockRestore();
+});
