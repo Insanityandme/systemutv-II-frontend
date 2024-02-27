@@ -17,7 +17,6 @@ test('testLoginRender', async () => {
     const loginButton = screen.getByText('Log in');
     const linkToRegister = screen.getByText(/Create account/i);
 
-
     expect(title).toBeInTheDocument();
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
@@ -41,15 +40,16 @@ test('testLoginRedirectionToRegister', async () => {
 
 test('login with valid credentials - redirection', async () => {
     render(
-        <BrowserRouter>
-            <Login />
-        </BrowserRouter>
+      <BrowserRouter>
+          <Login />
+      </BrowserRouter>
     );
 
     const emailInput = screen.getByPlaceholderText('Enter your email');
     const passwordInput = screen.getByPlaceholderText('Enter your password');
     const loginButton = screen.getByText('Log in');
 
+    // DONT FORGET TO CREATE THIS USER
     fireEvent.change(emailInput, { target: { value: 'example@example.org' } });
     fireEvent.change(passwordInput, { target: { value: 'example' } });
     fireEvent.click(loginButton);
@@ -58,7 +58,6 @@ test('login with valid credentials - redirection', async () => {
         expect(window.location.pathname).toBe('/dashboard');
     });
 });
-
 test('login with valid credentials - user token', async () => {
     render(
         <BrowserRouter>

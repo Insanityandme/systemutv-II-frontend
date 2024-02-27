@@ -7,9 +7,7 @@ import Settings from "./Pages/Settings/Settings";
 const Notification = (props) => {
 
     return (
-        <div>
-            <h3>Notification demo</h3>
-        </div>
+      <h3>{props.text}</h3>
     );
 };
 
