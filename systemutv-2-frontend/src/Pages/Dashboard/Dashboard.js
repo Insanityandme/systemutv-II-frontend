@@ -11,6 +11,7 @@ const Dashboard = () => {
     const [flowers, setFlowers] = useState([]);
     const [fact, setFact] = useState();
     const [errorText, setErrorText] = useState('');
+    const [dateValue, setDateValue] = useState(new Date());
 
     // create a function that takes in a date and returns the number of days since that date
     const daysSince = (date) => {
@@ -38,6 +39,7 @@ const Dashboard = () => {
                 const data = await response.json();
                 console.log(data);
                 setFlowers(data);
+                setDateValue(new Date().toISOString().slice(0, 10));
             } catch (error) {
                 setErrorText(error.message);
             }
@@ -95,9 +97,12 @@ const Dashboard = () => {
                           </>
                         }
                         lastWatered={
-                          <><b>Last watered</b><br/>
-                            {flower.lastWatered}<br/>
-                            {daysSince(flower.lastWatered)} days ago
+                            <>
+                                <input type="date"/>
+                                <br/>
+                                <b>Last watered</b><br/>
+                                {flower.lastWatered}<br/>
+                                {daysSince(flower.lastWatered)} days ago
                             </>
                         }
                         info={
