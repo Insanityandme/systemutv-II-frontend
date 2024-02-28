@@ -1,11 +1,13 @@
 import './Login.css';
 import {Link, useNavigate} from 'react-router-dom';
 import { useState } from 'react';
+import Notification from "../../Notification";
 
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorText, setErrorText] = useState('');
 
     const login = async (event) => {
         event.preventDefault();
@@ -26,16 +28,22 @@ const Login = () => {
                 navigate("/dashboard");
             } else {
                 const errorText = await response.text();
-                alert('Login failed:  Invalid email or password.' + errorText);
+                setErrorText(errorText);
             }
         } catch (error) {
-            alert('Network error: ' + error.message);
+            setErrorText(error.message);
         }
     };
 
-
     return (
         <div className="login">
+            { errorText ?
+              <Notification
+                text={errorText}
+              />
+              :
+              null
+            }
             <div className="login-container">
                 <h1>Welcome to your garden</h1>
                 <div className="form-container">
