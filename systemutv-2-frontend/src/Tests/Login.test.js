@@ -1,7 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Login from '../Pages/Login/Login';
 import {BrowserRouter} from "react-router-dom";
-import App from "../App";
 
 
 test('testLoginRender', async () => {
@@ -25,7 +24,7 @@ test('testLoginRender', async () => {
     expect(linkToRegister).toBeInTheDocument();
 });
 
-test('testLoginRedirectionToRegister', async () => {
+test('test redirection to register', async () => {
     render(
         <BrowserRouter>
             <Login />
