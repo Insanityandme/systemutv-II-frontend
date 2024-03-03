@@ -46,6 +46,12 @@ const Search = () => {
     };
 
         const fetchFlowers = async () => {
+            const trimmedSearchTerm = searchTerm.trim();
+            if (!trimmedSearchTerm) {
+                setOperationMessage("Please enter a plant name.");
+                return;
+            }
+
             try {
                 const response = await fetch(`http://localhost:7002/v1/plants?plant=${encodeURIComponent(searchTerm)}`);
                 if (!response.ok) {
@@ -54,6 +60,7 @@ const Search = () => {
                 }
                 const data = await response.json();
                 setFlowers(data.data);
+                setOperationMessage('');
             } catch (error) {
                 setFlowers([]);
                 setErrorText(error.message);
