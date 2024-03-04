@@ -10,7 +10,7 @@ test('renders Search component correctly', () => {
     );
 
     expect(screen.getByPlaceholderText(/Search plant here/i)).toBeInTheDocument();
-    expect(screen.getByText(/Search/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
     expect(screen.getByRole('combobox')).toBeInTheDocument();
 });
 
@@ -32,7 +32,7 @@ test('fetches flowers and updates UI on successful search', async () => {
     );
 
     fireEvent.change(screen.getByPlaceholderText(/Search plant here/i), { target: { value: 'rose' } });
-    fireEvent.click(screen.getByText(/Search/i));
+    fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     await waitFor(() => {
         expect(screen.getByText(/Rose/i)).toBeInTheDocument();
@@ -42,6 +42,26 @@ test('fetches flowers and updates UI on successful search', async () => {
 });
 
 test('opens nickname modal and submits nickname', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({
+            data: [{ id: 1, common_name: 'Rose', image_url: 'rose.jpg', scientific_name: 'Rosa' }]
+        }),
+    });
+
+    render(
+        <BrowserRouter>
+            <Search />
+        </BrowserRouter>
+    );
+
+    fireEvent.change(screen.getByPlaceholderText(/Search plant here/i), { target: { value: 'rose' } });
+    fireEvent.click(screen.getByRole('button', { name: /search/i }));
+
+    await waitFor(() => {
+        expect(screen.getByText(/Rose/i)).toBeInTheDocument();
+    });
+
     fireEvent.click(screen.getByText(/Add/i));
 
     await waitFor(() => {
@@ -50,5 +70,7 @@ test('opens nickname modal and submits nickname', async () => {
 
     fireEvent.change(screen.getByPlaceholderText(/Nickname/i), { target: { value: 'My Rose' } });
     fireEvent.click(screen.getByText(/Submit/i));
-    
+
+    global.fetch.mockRestore();
 });
+
