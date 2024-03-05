@@ -3,8 +3,8 @@ import App from '../App';
 import {BrowserRouter} from "react-router-dom";
 import Navbar from "../Navbar";
 
-
-
+// Requirement: Which requirement ID does this test case cover?
+// TODO
 test('renders app', () => {
     render(
         <BrowserRouter>

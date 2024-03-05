@@ -33,13 +33,16 @@ const Dashboard = () => {
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    setErrorText(errorText);
+                    console.log(errorText);
+                    // for future notifications
+                    // setErrorText(errorText);
                 }
                 const data = await response.json();
                 console.log(data);
                 setFlowers(data);
-            } catch (error) {
-                setErrorText(error.message);
+            } catch (e) {
+                // setErrorText(e.message);
+                console.log(e.statusMessage);
             }
         };
 
@@ -71,7 +74,9 @@ const Dashboard = () => {
                 setFlowers(nextFlowers);
             }
             else {
-                setErrorText(e.statusMessage);
+                console.log(e.statusMessage);
+                console.log(e.text())
+                // setErrorText(e.statusMessage);
             }
         })
     }
@@ -182,7 +187,7 @@ const Dashboard = () => {
                         <div className={"my-plant-panel"}>
                             {flowers.length === 0 ?
                                 <div className={"pot"}>
-                                    <button style={{marginLeft: '35%'}} onClick={toSearch}>press me</button>
+                                    <button style={{marginLeft: '35%'}} onClick={toSearch}>Go to search</button>
                                 </div>
                                 :
                                 showFlowers()
