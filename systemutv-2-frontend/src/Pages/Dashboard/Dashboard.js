@@ -203,9 +203,9 @@ const Dashboard = () => {
                                 <>
                                     <h2>Notifications</h2>
                                     <div className={"notification-panel"}>
-                                        <p>You need to water plants!</p>
-                                        <p>Man, they will die</p>
-                                        <p>Last chance!</p>
+                                        <p>Placeholder notification!</p>
+                                        <p>Placeholder notification 2</p>
+                                        <p>Placeholder notification 3!</p>
                                     </div>
                                 </>
                                 :

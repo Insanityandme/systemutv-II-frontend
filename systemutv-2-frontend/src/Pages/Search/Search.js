@@ -91,7 +91,6 @@ const Search = () => {
 
         const payload = {
          //   ...selectedFlower,
-
             id: selectedFlower.id, // Needs to be fixed
             commonName: selectedFlower.common_name || "string",
             scientificName: selectedFlower.scientific_name || "string",
@@ -102,7 +101,6 @@ const Search = () => {
             waterFrequency: 0,
             genus: selectedFlower.genus || "string",
             light: 0,
-
         };
 
         console.log("Sending payload to server:", payload);
