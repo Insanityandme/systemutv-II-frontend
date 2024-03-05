@@ -20,7 +20,7 @@
 This is the frontend part of MyHappyPlants, it is written in React and acts as a replacement of the JavaFX 
 portion of the legacy project we worked on for six weeks our second year of university. 
 
-# Installation
+# Install
 1. ```git clone https://github.com/Insanityandme/systemutv-II-frontend.git```
 2. Download and install NodeJS: https://nodejs.org/en/download/current
 3. ```cd``` into systemutv-II-frontend
