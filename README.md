@@ -20,13 +20,13 @@ portion of the legacy project we worked on for six weeks our second year of univ
 # Installation
 1. ```git clone https://github.com/Insanityandme/systemutv-II-frontend.git```
 2. Download and install NodeJS: https://nodejs.org/en/download/current
-3. cd into systemutv-II-frontend
+3. ```cd``` into systemutv-II-frontend
 4. run ```npm install``` to install all dependencies
 5. run ```npm start```
-6. The server should now be running at localhost:3000
+6. The server should now be running at localhost:3000!
 
 # Testing
-
+Need text to show you to try the tests we have
 
 # Contact
 You are welcome to contact me at bengtegardbook@gmail.com if you have any questions on how to setup this environment.
