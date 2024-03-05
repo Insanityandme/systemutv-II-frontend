@@ -2,8 +2,7 @@
 
 # MyHappyPlants
 [Install](#install) • [Testing](#testing) • [Contact](#contact)
-
-![image](https://github.com/Insanityandme/systemutv-II-frontend/assets/1380257/7571beb5-10c3-44a6-85aa-137eed4e6f6b)
+<img src="https://github.com/Insanityandme/systemutv-II-frontend/assets/1380257/87e0fe43-34d5-46ca-b7bf-4e783dd30c62"/> 
 
 </div>
 
