@@ -26,14 +26,7 @@ const Dashboard = () => {
             const userId = sessionStorage.getItem('userId');
 
             try {
-                const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'User-Agent': 'ANYTHING_WILl_WORK_HERE',
-                    },
-
-                });
+                const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`);
                 console.log(response);
                 const data = await response.json();
                 setFlowers(data);
