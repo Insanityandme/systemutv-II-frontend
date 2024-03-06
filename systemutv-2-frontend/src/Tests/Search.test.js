@@ -14,8 +14,6 @@ test('renders Search component correctly', () => {
     expect(screen.getByRole('combobox')).toBeInTheDocument();
 });
 
-
-
 // Test for successful search
 test('fetches flowers and updates UI on successful search', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
@@ -73,4 +71,3 @@ test('opens nickname modal and submits nickname', async () => {
 
     global.fetch.mockRestore();
 });
-

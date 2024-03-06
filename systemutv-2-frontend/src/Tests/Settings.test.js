@@ -3,8 +3,6 @@ import {BrowserRouter} from "react-router-dom";
 import Settings from "../Pages/Settings/Settings";
 import '@testing-library/jest-dom';
 
-
-
 test('test settings render', async () => {
     render(
         <BrowserRouter>
