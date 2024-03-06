@@ -106,7 +106,7 @@ const Search = () => {
             light: 0,
         };
 
-        console.log("Sending payload to server:", payload);
+        // console.log("Sending payload to server:", payload);
 
         try {
             const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`, {

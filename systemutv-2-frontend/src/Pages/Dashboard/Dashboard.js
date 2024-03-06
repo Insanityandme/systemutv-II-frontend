@@ -24,29 +24,33 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchPlants = async () => {
             const userId = sessionStorage.getItem('userId');
-            if (!userId) {
-                console.error("User ID not found in sessionStorage");
-                return;
-            }
+
             try {
-                const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`);
+                const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'User-Agent': 'ANYTHING_WILl_WORK_HERE',
+                    },
+
+                });
+                console.log(response);
+                const data = await response.json();
+                setFlowers(data);
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    console.log(errorText);
                     // for future notifications
                     // setErrorText(errorText);
                 }
-                const data = await response.json();
-                console.log(data);
-                setFlowers(data);
             } catch (e) {
                 // setErrorText(e.message);
-                console.log(e.statusMessage);
             }
         };
 
-        fetchPlants();
+        fetchPlants().then(r => {
+            // console.log(r);
+        });
     }, []);
 
     // update all plants by watering them using fetch

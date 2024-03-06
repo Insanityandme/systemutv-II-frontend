@@ -4,6 +4,8 @@ import {useState} from "react";
 import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
+    const [errorText, setErrorText] = useState('');
+
     // get the current state of notifications and fun facts from fetching the user data by id
     const getUserData = async () => {
         const userId = sessionStorage.getItem('userId');
@@ -18,16 +20,13 @@ const Settings = () => {
                 setFacts(data.funFactsActivated)
                 setNotifications(data.isNotificationsActivated);
             } else {
-                alert("Error fetching user data.");
+                const errorText = await response.text();
+                setErrorText(errorText);
             }
         } catch (error) {
-            alert("Network error: " + error.message);
+            setErrorText(error.message);
         }
     }
-
-    // getUserData().then(r => {
-    //     console.log("User data fetched successfully.");
-    // });
 
     const isNotificationsActive = sessionStorage.getItem('notifications');
     const isFunFactsActivated = sessionStorage.getItem('funFacts');
@@ -66,7 +65,7 @@ const Settings = () => {
                 setNotifications("true");
             }
         } catch (error) {
-            alert("Network error: " + error.message);
+            setErrorText(error.message);
         }
     }
     const handleFact = async() => {
@@ -97,7 +96,7 @@ const Settings = () => {
                 setFacts("true");
             }
         } catch (error) {
-            alert("Network error: " + error.message);
+            setErrorText(error.message);
         }
     }
     const handleDel = (e) => {
@@ -128,10 +127,10 @@ const Settings = () => {
                 alert("Account successfully deleted.");
                 navigate('/');
             } else {
-                alert("Error deleting account.");
+                setErrorText("Error deleting account.");
             }
         } catch (error) {
-            alert("Network error: " + error.message);
+            setErrorText("Network error: " + error.message);
         }
     };
 

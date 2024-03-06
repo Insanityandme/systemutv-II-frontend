@@ -21,7 +21,7 @@ const Login = () => {
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
                 sessionStorage.setItem('userId', data.id);
                 sessionStorage.setItem('notifications', data.isNotificationsActivated);
                 sessionStorage.setItem('funFacts', data.funFactsActivated);
