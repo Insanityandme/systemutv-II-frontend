@@ -1,12 +1,36 @@
-# systemutv-II-frontend
+<div align="center">
 
-# React Installation Guide
-To start an existing React app with an existing project and Node installation, follow these steps:
-1. Open your terminal or command prompt and navigate to the root directory of your existing project.
+# MyHappyPlants
+[Install](#install) • [Testing](#testing) • [Contact](#contact)
 
-2. Make sure you have Node.js installed on your machine. You can check this by running the command node -v in your terminal. If Node.js is not installed, you can download and install it from the official Node.js website. https://nodejs.org/en/download
+--- 
 
-3. Once you have Node.js installed, run the command npm install in your project's root directory. This will install all the necessary dependencies for your React app.
+<img src="https://github.com/Insanityandme/systemutv-II-frontend/assets/1380257/87e0fe43-34d5-46ca-b7bf-4e783dd30c62"/> 
 
-4. After the installation is complete, you can start your React app by running the command npm start in your terminal. This will start the development server and open your app in a web browser.
-Your existing React app should now be running with your existing project using Node installation.
+</div>
+
+---
+### Table of Contents
+- [Introduction](#introduction)
+- [Installation](#install)
+- [Testing](#testing)
+- [Contact](#contact)
+
+# Introduction
+This is the frontend part of MyHappyPlants, it is written in React and acts as a replacement of the JavaFX 
+portion of the legacy project we worked on for six weeks our second year of university. 
+
+# Install
+1. ```git clone https://github.com/Insanityandme/systemutv-II-frontend.git```
+2. Download and install NodeJS: https://nodejs.org/en/download/current
+3. ```cd``` into systemutv-II-frontend
+4. run ```npm install``` to install all dependencies
+5. run ```npm start```
+6. The server should now be running at localhost:3000!
+
+# Testing
+Need text to show you to try the tests we have
+
+# Contact
+You are welcome to contact me at bengtegardbook@gmail.com if you have any questions on how to setup this environment.
+There might be some mistakes in our installation guide and I apologize for that if that's the case.
