@@ -74,10 +74,13 @@ const Search = () => {
 
     // New function to add a plant to a user
     const addPlantToUser = async (nickname) => {
-        const userId = sessionStorage.getItem('userId');
-        if (!userId) {
+        let userId;
+
+        try {
+            userId = sessionStorage.getItem('userId');
+        } catch (error) {
+            setErrorText(error.message);
             console.error("User ID is not available");
-            return;
         }
 
         if (!selectedFlower) {

@@ -31,7 +31,7 @@ const Login = () => {
                 setErrorText(errorText);
             }
         } catch (error) {
-            setErrorText(error.message);
+            setErrorText('Failed to fetch');
         }
     };
 

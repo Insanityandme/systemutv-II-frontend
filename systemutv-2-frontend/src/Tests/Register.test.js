@@ -2,7 +2,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import {BrowserRouter} from "react-router-dom";
 import Register from "../Pages/Login/Register";
 
-
 test('test register page rendering', async () => {
     render(
         <BrowserRouter>
@@ -17,7 +16,6 @@ test('test register page rendering', async () => {
     const confirmInput = screen.getByPlaceholderText('Confirm your password');
     const registerButton = screen.getByText('Register');
     const linkToLogin = screen.getByText(/Login here/i);
-
 
     expect(title).toBeInTheDocument();
     expect(nameInput).toBeInTheDocument();

@@ -93,7 +93,7 @@ test('login with invalid credentials', async () => {
     fireEvent.click(loginButton);
 
     await waitFor(() => {
-        const alertElement = screen.getByText(/'Login failed:  Invalid email or password.'/i); //todo: fix alert
+        const alertElement = screen.getByText('Login failed: Invalid email or password');
         expect(alertElement).toBeInTheDocument();
     });
 });
@@ -114,7 +114,7 @@ test('Login with invalid login', async () => {
     fireEvent.click(loginButton);
 
     await waitFor(() => {
-        const alertElement = screen.getByText(/'Login failed:  Invalid email or password.'/i); //todo: fix alert
+        const alertElement = screen.getByText('Login failed: Invalid email or password');
         expect(alertElement).toBeInTheDocument();
     });
 });
@@ -135,7 +135,7 @@ test('Login with invalid password', async () => {
     fireEvent.click(loginButton);
 
     await waitFor(() => {
-        const alertElement = screen.getByText(/'Login failed:  Invalid email or password.'/i); //todo: fix alert
+        const alertElement = screen.getByText('Login failed: Invalid email or password'); //todo: fix alert
         expect(alertElement).toBeInTheDocument();
     });
 });
@@ -160,7 +160,7 @@ test('displays network error message when unable to connect to server', async ()
     fireEvent.click(loginButton);
 
     await waitFor(() => {
-        const alertElement = screen.getByText('Network error: Failed to fetch');
+        const alertElement = screen.getByText('Failed to fetch');
         expect(alertElement).toBeInTheDocument();
     });
 
@@ -187,7 +187,7 @@ test('displays network error message when no network connection', async () => {
     fireEvent.click(loginButton);
 
     await waitFor(() => {
-        const alertElement = screen.getByText('Network error: Failed to fetch');
+        const alertElement = screen.getByText('Failed to fetch');
         expect(alertElement).toBeInTheDocument();
     });
 

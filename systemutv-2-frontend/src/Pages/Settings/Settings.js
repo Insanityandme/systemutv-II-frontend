@@ -25,9 +25,9 @@ const Settings = () => {
         }
     }
 
-    getUserData().then(r => {
-        console.log("User data fetched successfully.");
-    });
+    // getUserData().then(r => {
+    //     console.log("User data fetched successfully.");
+    // });
 
     const isNotificationsActive = sessionStorage.getItem('notifications');
     const isFunFactsActivated = sessionStorage.getItem('funFacts');
