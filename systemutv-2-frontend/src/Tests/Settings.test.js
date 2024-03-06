@@ -22,9 +22,12 @@ test('test settings render', async () => {
     expect(facts).toBeInTheDocument();
     expect(deleteButton).toBeInTheDocument();
 
+    const deleteAccount = screen.getByText(/Delete account/i);
+    fireEvent.click(deleteAccount);
+
     const sure = screen.getByText('Are you sure?');
     const sureInput = screen.getByPlaceholderText('Enter your password to confirm');
-    const deleteAcc = screen.getByText(/Delete Account/i);
+    const deleteAcc = screen.getByText('Delete Account');
     const changedMind = screen.getByText('Changed your mind?');
     const close = screen.getByText(/Close/i);
 
