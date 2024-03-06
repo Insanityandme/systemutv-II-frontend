@@ -15,7 +15,7 @@ export const Flower = (props) => {
             </div>
             <p>{props.lastWatered}</p>
             <div className="flower-actions">
-            {!props.isSearching && (
+                {!props.isSearching && (
                     <>
                         <input type="date" className="date-picker" value={dateValue} onChange={(e) => setDateValue(e.target.value)}/>
                         <button className="water-button" onClick={() => props.waterSinglePlant(props.id, dateValue)}>Water</button>
