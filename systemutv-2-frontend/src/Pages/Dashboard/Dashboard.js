@@ -11,6 +11,7 @@ const Dashboard = () => {
     const [flowers, setFlowers] = useState([]);
     const [fact, setFact] = useState();
     const [errorText, setErrorText] = useState('');
+    const [dateValue, setDateValue] = useState(new Date());
 
     // create a function that takes in a date and returns the number of days since that date
     const daysSince = (date) => {
@@ -62,7 +63,6 @@ const Dashboard = () => {
         fetchFact().then(r => {
             // console.log("done fetching fact");
         });
-
         // console.log('i fire once if strictmode is false in index.js');
     }, []);
 
@@ -98,6 +98,49 @@ const Dashboard = () => {
         })
     }
 
+    const waterSinglePlant = async (plantId, date) => {
+        const selectedDate = new Date(date);
+        const currentDate = new Date();
+
+        selectedDate.setHours(0, 0, 0, 0);
+        currentDate.setHours(0, 0, 0, 0);
+
+        // check to see that the user doesn't pick a date in the future
+        if (selectedDate > currentDate) {
+            alert("The selected date is in the future. Please select a valid date.");
+            return;
+        }
+
+        const userId = sessionStorage.getItem('userId');
+        const url = `http://localhost:7002/v1/users/${userId}/plants/${plantId}`;
+
+        const response = await fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                lastWatered: date
+            }) 
+        });
+
+        if (response.ok) {
+            setFlowers(prevFlowers => {
+                return prevFlowers.map(flower => {
+                    if (flower.id === plantId) {
+                        return {...flower, lastWatered: date};
+                    } else {
+                        return flower;
+                    }
+                });
+            });
+        } else {
+            console.log(response.statusMessage);
+            console.log(await response.text());
+            // setErrorText(response.statusMessage);
+        }  
+    }
+
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
     };
@@ -117,9 +160,10 @@ const Dashboard = () => {
                           </>
                         }
                         lastWatered={
-                          <><b>Last watered</b><br/>
-                            {flower.lastWatered}<br/>
-                            {daysSince(flower.lastWatered)} days ago
+                            <>
+                                <b>Last watered</b><br/>
+                                {flower.lastWatered}<br/>
+                                {daysSince(flower.lastWatered)} days ago
                             </>
                         }
                         info={
@@ -131,6 +175,7 @@ const Dashboard = () => {
                             </>
                         }
                         deletePlant={deletePlant}
+                        waterSinglePlant={(plantId, dateValue) => waterSinglePlant(plantId, dateValue)}
                         showDeleteButton={true}
                     />
                 ))}
