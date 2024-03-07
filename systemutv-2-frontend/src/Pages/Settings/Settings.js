@@ -152,7 +152,7 @@ const Settings = () => {
                 <div className={"profile-container"}>
                     <div className={"profile-info"}>
                         <div className={"profile-picture"} onClick={triggerFileInput}>
-                            {profilePic ? <img src={profilePic} alt="Profile" style={{width: "", height: ""}}/> : "Upload Picture"}
+                            {profilePic ? <img src={profilePic} alt="Profile" /> : "Upload picture"}
                             <input type="file" style={{display: "none"}} ref={fileInputRef} onChange={handleProfilePicChange} />
                         </div>
                         <h2>Your name</h2>
