@@ -6,7 +6,9 @@ import { useNavigate } from 'react-router-dom';
 const Settings = () => {
     useEffect(() =>  {
         const profile = sessionStorage.getItem("profile");
-        setProfilePic(profile);
+        if (profile !== null) {
+            setProfilePic(profile);
+        }
     }, []);
     const getUserData = async () => {
         const userId = sessionStorage.getItem('userId');
@@ -99,18 +101,24 @@ const Settings = () => {
         }
     };
 
-    const handleProfilePicChange = (e) => {
+    const handleProfilePicChange = async (e) => {
         if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setProfilePic(e.target.result);
-                sessionStorage.setItem("profile", e.target.result)
+            const userId = sessionStorage.getItem('userId');
+            const url = `http://localhost:7002/v1/users/${userId}/upload`;
 
-            };
-            reader.readAsDataURL(e.target.files[0]);
-            console.log(e.target.files[0])
+            const formData = new FormData();
+            formData.append('file', e.target.files[0]);
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setProfilePic(data);
+                sessionStorage.setItem("profile", data);
+            }
         }
-
     };
 
     const triggerFileInput = () => {
@@ -160,7 +168,7 @@ const Settings = () => {
                 <div className={"profile-container"}>
                     <div className={"profile-info"}>
                         <div className={"profile-picture"} onClick={triggerFileInput}>
-                            {profilePic ? <img src={profilePic} alt="Profile" /> : "Upload picture"}
+                            {profilePic ? <img src={"http://localhost:7002/uploads/" + profilePic} alt="Profile" /> : "Upload picture"}
                             <input type="file" style={{display: "none"}} ref={fileInputRef} onChange={handleProfilePicChange} />
                         </div>
                         <h2>Your name</h2>
