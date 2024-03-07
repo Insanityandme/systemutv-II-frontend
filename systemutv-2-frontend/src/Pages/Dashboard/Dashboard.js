@@ -20,33 +20,50 @@ const Dashboard = () => {
         return Math.floor(diff / (1000 * 60 * 60 * 24));
     }
 
+    const fetchPlants = async () => {
+        let userId;
+        try {
+            userId = sessionStorage.getItem('userId');
+        } catch (e) {
+            console.error("User ID not found in sessionStorage");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.log(errorText);
+                // for future notifications
+                // setErrorText(errorText);
+            }
+            const data = await response.json();
+            // console.log(data);
+            setFlowers(data);
+        } catch (e) {
+            // setErrorText(e.message);
+            // console.log(e.statusMessage);
+        }
+    };
+
+    const fetchFact = async () => {
+        const funFactId = Math.floor(Math.random() * 42) + 1;
+        const response = await fetch(`http://localhost:7002/v1/facts/${funFactId}`);
+        const data = await response.json();
+        setFact(data);
+    };
+
     // Fetch all plants for the user
     useEffect(() => {
-        const fetchPlants = async () => {
-            const userId = sessionStorage.getItem('userId');
-            if (!userId) {
-                console.error("User ID not found in sessionStorage");
-                return;
-            }
-            try {
-                const response = await fetch(`http://localhost:7002/v1/users/${userId}/plants`);
+        fetchPlants().then(r => {
+            // console.log("done fetching plants");
+        });
+        fetchFact().then(r => {
+            // console.log("done fetching fact");
+        });
 
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.log(errorText);
-                    // for future notifications
-                    // setErrorText(errorText);
-                }
-                const data = await response.json();
-                console.log(data);
-                setFlowers(data);
-            } catch (e) {
-                // setErrorText(e.message);
-                console.log(e.statusMessage);
-            }
-        };
-
-        fetchPlants();
+        // console.log('i fire once if strictmode is false in index.js');
     }, []);
 
     // update all plants by watering them using fetch
@@ -146,17 +163,6 @@ const Dashboard = () => {
             setErrorText(error.message);
         }
     };
-
-    useEffect(() => {
-        const fetchFact = async () => {
-            const funFactId = Math.floor(Math.random() * 42) + 1;
-            const response = await fetch(`http://localhost:7002/v1/facts/${funFactId}`);
-            const data = await response.json();
-            setFact(data);
-        };
-
-        fetchFact();
-    }, []);
 
     return (
         <div className={"dashboard"}>
