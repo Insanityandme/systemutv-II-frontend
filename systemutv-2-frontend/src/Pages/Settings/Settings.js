@@ -1,9 +1,13 @@
 import './Settings.css';
 import Navbar from "../../Navbar";
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
+    useEffect(() =>  {
+        const profile = sessionStorage.getItem("profile");
+        setProfilePic(profile);
+    }, []);
     const getUserData = async () => {
         const userId = sessionStorage.getItem('userId');
         const url = `http://localhost:7002/v1/users/${userId}`;
@@ -100,9 +104,13 @@ const Settings = () => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 setProfilePic(e.target.result);
+                sessionStorage.setItem("profile", e.target.result)
+
             };
             reader.readAsDataURL(e.target.files[0]);
+            console.log(e.target.files[0])
         }
+
     };
 
     const triggerFileInput = () => {
