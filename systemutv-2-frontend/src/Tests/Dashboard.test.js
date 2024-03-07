@@ -52,9 +52,10 @@ describe('Dashboard Component', () => {
 
     // Test for navigating to the search page
     it('Navigates to search page on button click', async() => {
-        // Mock responses for both plants and a fun fact
+        // This needs to be empty to ensure the button "Go to search" is present
         const mockPlantsResponse = [];
 
+        // Mock responses for fun fact
         const mockFunFactResponse = "Plants can communicate.";
 
         fetchMock.mockResponses(
