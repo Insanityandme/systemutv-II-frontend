@@ -3,6 +3,8 @@ import "./Flower.css";
 
 export const Flower = (props) => {
     const [showModal, setShowModal] = useState(false);
+    const [dateValue, setDateValue] = useState(new Date().toISOString().slice(0, 10));
+    
     const toggleModal = () => setShowModal(!showModal);
 
     return (
@@ -13,6 +15,12 @@ export const Flower = (props) => {
             </div>
             <p>{props.lastWatered}</p>
             <div className="flower-actions">
+                {!props.isSearching && (
+                    <>
+                        <input type="date" className="date-picker" value={dateValue} onChange={(e) => setDateValue(e.target.value)}/>
+                        <button className="water-button" onClick={() => props.waterSinglePlant(props.id, dateValue)}>Water</button>
+                    </>
+                )}
                 <button className="info-button" onClick={toggleModal}>Info</button>
                 {props.showDeleteButton ? (
                     <button className="delete-button" onClick={() => props.deletePlant(props.id)}>Delete</button>

@@ -154,6 +154,7 @@ const Search = () => {
                                 </>
                             }
                             addPlantToUser={() => handleAddClick(flower)}
+                            isSearching={true}
                         />
                     ))}
                 </div>
