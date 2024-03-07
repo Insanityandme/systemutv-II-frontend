@@ -25,6 +25,11 @@ const Login = () => {
                 sessionStorage.setItem('userId', data.id);
                 sessionStorage.setItem('notifications', data.isNotificationsActivated);
                 sessionStorage.setItem('funFacts', data.funFactsActivated);
+
+                if (data.avatarUrl != null) {
+                    sessionStorage.setItem("profile", data.avatarUrl);
+                }
+
                 navigate("/dashboard");
             } else {
                 const errorText = await response.text();

@@ -1,10 +1,17 @@
 import './Settings.css';
 import Navbar from "../../Navbar";
-import {useState} from "react";
+import {useState, useRef, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 
+ // REQUIRMENT: F.UI.13
+
 const Settings = () => {
-    // get the current state of notifications and fun facts from fetching the user data by id
+    useEffect(() =>  {
+        const profile = sessionStorage.getItem("profile");
+        if (profile !== null) {
+            setProfilePic(profile);
+        }
+    }, []);
     const getUserData = async () => {
         const userId = sessionStorage.getItem('userId');
         const url = `http://localhost:7002/v1/users/${userId}`;
@@ -25,27 +32,27 @@ const Settings = () => {
         }
     }
 
-    getUserData();
+    getUserData().then(r => {
+        console.log("User data fetched successfully.");
+    });
 
     const isNotificationsActive = sessionStorage.getItem('notifications');
     const isFunFactsActivated = sessionStorage.getItem('funFacts');
 
-    const [notifications, setNotifications] = useState(isNotificationsActive);
-    const [facts, setFacts] = useState(isFunFactsActivated);
+    const [notifications, setNotifications] = useState(isNotificationsActive === 'true');
+    const [facts, setFacts] = useState(isFunFactsActivated === 'true');
     const [deleteAcc, setDeleteAcc] = useState(false);
     const [password, setPassword] = useState("");
+    const [profilePic, setProfilePic] = useState(null);
+    const fileInputRef = useRef(null);
     const navigate = useNavigate();
 
     const handleNot = async() => {
         const userId = sessionStorage.getItem('userId');
         const url = `http://localhost:7002/v1/users/${userId}`;
-        let notification = sessionStorage.getItem('notifications');
+        let notification = notifications;
 
-        if (notification === "true") {
-            notification = false;
-        } else if (notification === "false") {
-            notification = true;
-        }
+        notification = !notification;
 
         try {
             const response = await fetch(url, {
@@ -59,24 +66,21 @@ const Settings = () => {
             });
 
             if (response.ok) {
-                setNotifications("false");
+                setNotifications(notification);
             } else {
-                setNotifications("true");
+                alert("Unable to update notifications setting.");
             }
         } catch (error) {
             alert("Network error: " + error.message);
         }
-    }
+    };
+
     const handleFact = async() => {
         const userId = sessionStorage.getItem('userId');
         const url = `http://localhost:7002/v1/users/${userId}`;
-        let fact = sessionStorage.getItem('funFacts');
+        let fact = facts;
 
-        if (fact === "true") {
-            fact = false;
-        } else if (fact === "false") {
-            fact = true;
-        }
+        fact = !fact;
 
         try {
             const response = await fetch(url, {
@@ -90,20 +94,47 @@ const Settings = () => {
             });
 
             if (response.ok) {
-                setFacts("false");
+                setFacts(fact);
             } else {
-                setFacts("true");
+                alert("Unable to update fun facts setting.");
             }
         } catch (error) {
             alert("Network error: " + error.message);
         }
-    }
+    };
+
+    const handleProfilePicChange = async (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const userId = sessionStorage.getItem('userId');
+            const url = `http://localhost:7002/v1/users/${userId}/upload`;
+
+            const formData = new FormData();
+            formData.append('file', e.target.files[0]);
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setProfilePic(data);
+                sessionStorage.setItem("profile", data);
+            }
+        }
+    };
+
+    const triggerFileInput = () => {
+        fileInputRef.current.click();
+    };
+
     const handleDel = (e) => {
         setDeleteAcc(!deleteAcc);
-    }
+    };
+
     const handleLogOut = (e) => {
         navigate('/');
-    }
+    };
+
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
@@ -118,7 +149,6 @@ const Settings = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                // Sending password for verification, ensure backend supports this!
                 body: JSON.stringify({ password: password }),
             });
 
@@ -139,12 +169,13 @@ const Settings = () => {
             <div className={"main-panel-profile"}>
                 <div className={"profile-container"}>
                     <div className={"profile-info"}>
-                        <div className={"profile-picture"}>Profile picture</div>
-                        {/*with click on profile picture it can be changed*/}
+                        <div className={"profile-picture"} onClick={triggerFileInput}>
+                            {profilePic ? <img src={"http://localhost:7002/uploads/" + profilePic} alt="Profile" /> : "Upload picture"}
+                            <input type="file" style={{display: "none"}} ref={fileInputRef} onChange={handleProfilePicChange} />
+                        </div>
                         <h2>Your name</h2>
                         <button onClick={handleLogOut}>Log out</button>
                     </div>
-
                     <div className={"settings-buttons"}>
                         <button onClick={handleNot}>{notifications ? "Notifications off" : "Notifications on"}</button>
                         <button onClick={handleFact}>{facts ? "Facts off" : "Facts on"}</button>
@@ -158,14 +189,13 @@ const Settings = () => {
                                 <button onClick={handleDel}>Close</button>
                             </div>
                             :
-                            <div>
-                            </div>
+                            <div></div>
                         }
                     </div>
                 </div>
-
             </div>
         </div>
     );
 };
+
 export default Settings;
