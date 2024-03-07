@@ -3,6 +3,8 @@ import Navbar from "../../Navbar";
 import {useState, useRef, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 
+ // REQUIRMENT: F.UI.13
+
 const Settings = () => {
     useEffect(() =>  {
         const profile = sessionStorage.getItem("profile");
