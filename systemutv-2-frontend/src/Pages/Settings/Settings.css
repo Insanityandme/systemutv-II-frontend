@@ -35,14 +35,22 @@
 }
 
 .profile-picture {
+    width: 150px;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 15vh;
-    height: 15vh;
+    overflow: hidden;
     border-radius: 100%;
-    background: #386641;
-    color: #f2e8cf;
+    background-color: #6a994e;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+
 }
 
 .profile-info > button {
