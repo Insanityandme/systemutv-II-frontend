@@ -95,14 +95,14 @@ const Search = () => {
         const payload = {
          //   ...selectedFlower,
             id: selectedFlower.id, // Needs to be fixed
-            commonName: selectedFlower.common_name || "string",
-            scientificName: selectedFlower.scientific_name || "string",
-            family: selectedFlower.family || "string",
-            imageURL: selectedFlower.image_url || "string",
+            commonName: selectedFlower.common_name || "N/A",
+            scientificName: selectedFlower.scientific_name || "N/A",
+            family: selectedFlower.family || "N/A",
+            imageURL: selectedFlower.image_url || "N/A",
             nickname: nickname,
             lastWatered: lastWatered,
             waterFrequency: 0,
-            genus: selectedFlower.genus || "string",
+            genus: selectedFlower.genus || "N/A",
             light: 0,
         };
 
