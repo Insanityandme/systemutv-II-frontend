@@ -37,7 +37,9 @@ NOTE: There are two ways to run our tests: By running each file or through the c
 4. Done!
 5. It should look something like this:
 6. IDE: ![image](https://github.com/Insanityandme/systemutv-II-frontend/assets/1380257/1ea8df6a-6cde-4c21-a273-24dd83ca59b0)
-7. Terminal: ![image](https://github.com/Insanityandme/systemutv-II-frontend/assets/1380257/e1ecaae5-7f79-4e8b-87a1-91a7c290db54)
+7. Terminal: ![image](https://github.com/Insanityandme/systemutv-II-frontend/assets/1380257/1d8e51f7-d409-4413-a22d-f4aede84fd50)
+8. Sometimes ```npm test``` does not run all 7 test suites, simply rerun and it should catch them all!
+
 
 
 # Contact
