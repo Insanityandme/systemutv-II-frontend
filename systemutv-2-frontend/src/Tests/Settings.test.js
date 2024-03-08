@@ -2,13 +2,17 @@ import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import {BrowserRouter} from "react-router-dom";
 import Settings from "../Pages/Settings/Settings";
 import '@testing-library/jest-dom';
+import {act} from "react-dom/test-utils";
 
 test('test settings render', async () => {
-    render(
-        <BrowserRouter>
-            <Settings/>
-        </BrowserRouter>
-    );
+    // This is necessary because we are updating the state.
+    await act( async () => {
+        render(
+          <BrowserRouter>
+              <Settings/>
+          </BrowserRouter>
+        );
+    });
 
     const name = screen.getByText('Your name');
     const logoutButton = screen.getByText('Log out');
@@ -61,9 +65,9 @@ describe('Settings Component', () => {
         sessionStorage.setItem('userId', 'testUserId');
 
         render(
-            <BrowserRouter>
-                <Settings />
-            </BrowserRouter>
+          <BrowserRouter>
+              <Settings/>
+          </BrowserRouter>
         );
 
         await waitFor(() => {
@@ -79,11 +83,15 @@ describe('Settings Component', () => {
     test('toggle notifications functionality', async () => {
         sessionStorage.setItem('userId', 'testUserId');
         sessionStorage.setItem('notifications', 'true');
-        render(
-            <BrowserRouter>
-                <Settings />
-            </BrowserRouter>
-        );
+
+        // This is necessary because we are updating the state.
+        await act( async () => {
+            render(
+              <BrowserRouter>
+                  <Settings/>
+              </BrowserRouter>
+            );
+        });
 
         const notificationsButton = screen.getByText('Notifications off');
         fireEvent.click(notificationsButton);
@@ -97,11 +105,15 @@ describe('Settings Component', () => {
     test('toggle facts functionality', async () => {
         sessionStorage.setItem('userId', 'testUserId');
         sessionStorage.setItem('funFacts', 'true');
-        render(
-            <BrowserRouter>
-                <Settings />
-            </BrowserRouter>
-        );
+
+        // This is necessary because we are updating the state.
+        await act( async () => {
+            render(
+              <BrowserRouter>
+                  <Settings/>
+              </BrowserRouter>
+            );
+        });
 
         const factsButton = screen.getByText('Facts off');
         fireEvent.click(factsButton);
@@ -112,12 +124,15 @@ describe('Settings Component', () => {
     });
 
 
-    test('navigates user on logout', () => {
-        render(
-            <BrowserRouter>
-                <Settings />
-            </BrowserRouter>
-        );
+    test('navigates user on logout', async () => {
+        // This is necessary because we are updating the state.
+        await act(async () => {
+            render(
+              <BrowserRouter>
+                  <Settings/>
+              </BrowserRouter>
+            );
+        });
 
         fireEvent.click(screen.getByText('Log out'));
 

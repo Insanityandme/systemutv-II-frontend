@@ -2,10 +2,13 @@ import './Settings.css';
 import Navbar from "../../Navbar";
 import {useState, useRef, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
+import Notification from "../../Notification";
 
  // REQUIRMENT: F.UI.13
 
 const Settings = () => {
+    const [errorText, setErrorText] = useState('');
+
     useEffect(() =>  {
         const profile = sessionStorage.getItem("profile");
         if (profile !== null) {
@@ -25,15 +28,15 @@ const Settings = () => {
                 setFacts(data.funFactsActivated)
                 setNotifications(data.isNotificationsActivated);
             } else {
-                alert("Error fetching user data.");
+                setErrorText("Error fetching user data.")
             }
         } catch (error) {
-            alert("Network error: " + error.message);
+            setErrorText("Network error: " + error.message)
         }
     }
 
     getUserData().then(r => {
-        console.log("User data fetched successfully.");
+        // console.log("User data fetched successfully.");
     });
 
     const isNotificationsActive = sessionStorage.getItem('notifications');
@@ -68,10 +71,10 @@ const Settings = () => {
             if (response.ok) {
                 setNotifications(notification);
             } else {
-                alert("Unable to update notifications setting.");
+                setErrorText("Unable to update notifications setting.")
             }
         } catch (error) {
-            alert("Network error: " + error.message);
+            setErrorText("Network error: " + error.message)
         }
     };
 
@@ -96,10 +99,10 @@ const Settings = () => {
             if (response.ok) {
                 setFacts(fact);
             } else {
-                alert("Unable to update fun facts setting.");
+                setErrorText("Unable to update fun facts setting.")
             }
         } catch (error) {
-            alert("Network error: " + error.message);
+            setErrorText("Network error: " + error.message)
         }
     };
 
@@ -153,19 +156,26 @@ const Settings = () => {
             });
 
             if (response.status === 204) {
-                alert("Account successfully deleted.");
+                setErrorText("Account successfully deleted.")
                 navigate('/');
             } else {
-                alert("Error deleting account.");
+                setErrorText("Error deleting account.")
             }
         } catch (error) {
-            alert("Network error: " + error.message);
+            setErrorText("Network error: " + error.message)
         }
     };
 
     return (
         <div className={"profile"}>
             <Navbar/>
+            { errorText ?
+              <Notification
+                text={errorText}
+              />
+              :
+              null
+            }
             <div className={"main-panel-profile"}>
                 <div className={"profile-container"}>
                     <div className={"profile-info"}>
