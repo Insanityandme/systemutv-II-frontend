@@ -29,7 +29,16 @@ portion of the legacy project we worked on for six weeks our second year of univ
 6. The server should now be running at localhost:3000!
 
 # Testing
-Need text to show you to try the tests we have
+NOTE: There are two ways to run our tests: By running each file or through the command line
+
+1. Editor: Go into src/Tests and run each file
+2. Command line: ```npm test```
+3. Press a to run all tests
+4. Done!
+5. It should look something like this:
+6. IDE: ![image](https://github.com/Insanityandme/systemutv-II-frontend/assets/1380257/1ea8df6a-6cde-4c21-a273-24dd83ca59b0)
+7. Terminal: ![image](https://github.com/Insanityandme/systemutv-II-frontend/assets/1380257/e1ecaae5-7f79-4e8b-87a1-91a7c290db54)
+
 
 # Contact
 You are welcome to contact me at bengtegardbook@gmail.com if you have any questions on how to setup this environment.
