@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from "react-router-dom";
 import Search from '..//Pages/Search/Search';
 import { fireEvent, waitFor } from '@testing-library/react';
+import {act} from "react-dom/test-utils";
 test('renders Search component correctly', () => {
     render(
         <BrowserRouter>
@@ -53,21 +54,25 @@ test('opens nickname modal and submits nickname', async () => {
         </BrowserRouter>
     );
 
-    fireEvent.change(screen.getByPlaceholderText(/Search plant here/i), { target: { value: 'rose' } });
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
+    fireEvent.change(screen.getByPlaceholderText(/Search plant here/i), {target: {value: 'rose'}});
+    fireEvent.click(screen.getByRole('button', {name: /search/i}));
 
     await waitFor(() => {
         expect(screen.getByText(/Rose/i)).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByText(/Add/i));
+    await act(async () => {
+        fireEvent.click(screen.getByText(/Add/i));
+    });
 
     await waitFor(() => {
         expect(screen.getByText(/Enter a Nickname/i)).toBeInTheDocument();
     });
 
-    fireEvent.change(screen.getByPlaceholderText(/Nickname/i), { target: { value: 'My Rose' } });
-    fireEvent.click(screen.getByText(/Submit/i));
+    await act(async () => {
+        fireEvent.change(screen.getByPlaceholderText(/Nickname/i), { target: { value: 'My Rose' } });
+        fireEvent.click(screen.getByText(/Submit/i));
+    });
 
     global.fetch.mockRestore();
 });
