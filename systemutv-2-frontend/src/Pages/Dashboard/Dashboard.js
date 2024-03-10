@@ -1,6 +1,7 @@
 import './Dashboard.css';
 import Navbar from "../../Navbar";
 import Flower from "./Flower";
+import FlowerWithoutImage from "./FlowerWithoutImage";
 import {useNavigate} from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import Notification from "../../Notification";
@@ -8,10 +9,11 @@ import Notification from "../../Notification";
 const Dashboard = () => {
     const navigate = useNavigate();
     const [selectedOption, setSelectedOption] = useState('option1');
+    const [originalFlowers, setOriginalFlowers] = useState([]);
     const [flowers, setFlowers] = useState([]);
     const [fact, setFact] = useState();
     const [errorText, setErrorText] = useState('');
-    const [dateValue, setDateValue] = useState(new Date());
+    const [areImagesHidden, setAreImagesHidden] = useState(false);
 
     // create a function that takes in a date and returns the number of days since that date
     const daysSince = (date) => {
@@ -42,6 +44,7 @@ const Dashboard = () => {
             const data = await response.json();
             // console.log(data);
             setFlowers(data);
+            setOriginalFlowers(data);
         } catch (e) {
             // setErrorText(e.message);
             // console.log(e.statusMessage);
@@ -66,54 +69,62 @@ const Dashboard = () => {
         // console.log('i fire once if strictmode is false in index.js');
     }, []);
 
+    const waterPlant = (id, date) => {
+        setFlowers(prevFlowers => prevFlowers.map(flower => 
+            flower.id === id ? { ...flower, lastWatered: date } : flower
+        ));
+        setOriginalFlowers(prevOriginalFlowers => prevOriginalFlowers.map(flower => 
+            flower.id === id ? { ...flower, lastWatered: date } : flower
+        ));
+    };
+
     // update all plants by watering them using fetch
     const waterAllPlants = async() => {
         const userId = sessionStorage.getItem('userId');
         const url = `http://localhost:7002/v1/users/${userId}/plants`;
         const date = new Date().toISOString().slice(0, 10);
-
-        const response = fetch(url, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                lastWatered: date
-            })
-        });
-
-        response.then((e) => {
-            if (e.ok) {
-                const nextFlowers = flowers.map((flower) => {
-                    flower.lastWatered = date;
-                    return(flower)
+    
+        try {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    lastWatered: date
                 })
-                setFlowers(nextFlowers);
+            });
+    
+            if (response.ok) {
+                flowers.forEach(flower => waterPlant(flower.id, date));
+            } else {
+                console.log(response.statusMessage);
+                console.log(await response.text())
+                // setErrorText(response.statusMessage);
             }
-            else {
-                console.log(e.statusMessage);
-                console.log(e.text())
-                // setErrorText(e.statusMessage);
-            }
-        })
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
+    // water a single plant
+    // Requirement F.UI.12
     const waterSinglePlant = async (plantId, date) => {
         const selectedDate = new Date(date);
         const currentDate = new Date();
-
+    
         selectedDate.setHours(0, 0, 0, 0);
         currentDate.setHours(0, 0, 0, 0);
-
+    
         // check to see that the user doesn't pick a date in the future
         if (selectedDate > currentDate) {
             alert("The selected date is in the future. Please select a valid date.");
             return;
         }
-
+    
         const userId = sessionStorage.getItem('userId');
         const url = `http://localhost:7002/v1/users/${userId}/plants/${plantId}`;
-
+    
         const response = await fetch(url, {
             method: 'PATCH',
             headers: {
@@ -123,17 +134,9 @@ const Dashboard = () => {
                 lastWatered: date
             }) 
         });
-
+    
         if (response.ok) {
-            setFlowers(prevFlowers => {
-                return prevFlowers.map(flower => {
-                    if (flower.id === plantId) {
-                        return {...flower, lastWatered: date};
-                    } else {
-                        return flower;
-                    }
-                });
-            });
+            waterPlant(plantId, date);
         } else {
             console.log(response.statusMessage);
             console.log(await response.text());
@@ -141,44 +144,97 @@ const Dashboard = () => {
         }  
     }
 
+    // Requirement F.UI.14
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
+    
+        if (e.target.value === "Watered") {
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 8);
+    
+            setFlowers(originalFlowers.filter(flower => {
+                const lastWatered = new Date(flower.lastWatered);
+                return lastWatered >= oneWeekAgo;
+            }));
+        } else if (e.target.value === "NotWatered") {
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 8);
+    
+            setFlowers(originalFlowers.filter(flower => {
+                const lastWatered = new Date(flower.lastWatered);
+                return lastWatered < oneWeekAgo;
+            }));
+        } else {
+            setFlowers(originalFlowers);
+        }
     };
 
     const showFlowers = () => {
         return (
             <div className="flowers-grid">
-                {flowers.map((flower, index) => (
-                    <Flower
-                        id={flower.id}
-                        key={index}
-                        image={flower.imageURL}
-                        nickname={
-                          <>
-                            <b>Name</b><br/>
-                            {flower.nickname}
-                          </>
-                        }
-                        lastWatered={
-                            <>
-                                <b>Last watered</b><br/>
-                                {flower.lastWatered}<br/>
-                                {daysSince(flower.lastWatered)} days ago
-                            </>
-                        }
-                        info={
-                            <>
-                                <span className="info-title">Genus: </span>{flower.genus}<br/>
-                                <span className="info-title">Family</span>{flower.family}<br/>
-                                <span className="info-title">Scientific Name: </span>{flower.scientificName}<br/>
-                                <span className="info-title">Family Common Name: </span>{flower.commonName}
-                            </>
-                        }
-                        deletePlant={deletePlant}
-                        waterSinglePlant={(plantId, dateValue) => waterSinglePlant(plantId, dateValue)}
-                        showDeleteButton={true}
-                    />
-                ))}
+                {flowers.map((flower, index) => {
+                    if (areImagesHidden) {
+                        return (
+                            <FlowerWithoutImage
+                                id={flower.id}
+                                key={index}
+                                nickname={
+                                  <>
+                                    <b>Name:</b> {flower.nickname}
+                                  </>
+                                }
+                                lastWatered={
+                                    <>
+                                        <b>Last watered</b> {flower.lastWatered} {daysSince(flower.lastWatered)} days ago
+                                    </>
+                                }
+                                info={
+                                    <>
+                                        <span className="info-title">Genus: </span>{flower.genus}<br/>
+                                        <span className="info-title">Family</span>{flower.family}<br/>
+                                        <span className="info-title">Scientific Name: </span>{flower.scientificName}<br/>
+                                        <span className="info-title">Family Common Name: </span>{flower.commonName}
+                                    </>
+                                }
+                                deletePlant={deletePlant}
+                                waterSinglePlant={(plantId, dateValue) => waterSinglePlant(plantId, dateValue)}
+                                showDeleteButton={true}
+                            />
+                        );
+                    } else {
+                        return (
+                            <Flower
+                                id={flower.id}
+                                key={index}
+                                image={flower.imageURL}
+                                nickname={
+                                  <>
+                                    <b>Name</b><br/>
+                                    {flower.nickname}
+                                  </>
+                                }
+                                lastWatered={
+                                    <>
+                                        <b>Last watered</b><br/>
+                                        {flower.lastWatered}<br/>
+                                        {daysSince(flower.lastWatered)} days ago
+                                    </>
+                                }
+                                info={
+                                    <>
+                                        <span className="info-title">Genus: </span>{flower.genus}<br/>
+                                        <span className="info-title">Family</span>{flower.family}<br/>
+                                        <span className="info-title">Scientific Name: </span>{flower.scientificName}<br/>
+                                        <span className="info-title">Family Common Name: </span>{flower.commonName}
+                                    </>
+                                }
+                                deletePlant={deletePlant}
+                                waterSinglePlant={(plantId, dateValue) => waterSinglePlant(plantId, dateValue)}
+                                showDeleteButton={true}
+                            />
+                        );
+                    }
+                })}
             </div>
         );
     };
@@ -227,10 +283,10 @@ const Dashboard = () => {
 
                         <div className={"dashboard-buttons"}>
                             <button onClick={waterAllPlants}>Water all plants</button>
-                            <button>Expand all</button>
-                            <button>Collapse all</button>
+                            <button onClick={() => setAreImagesHidden(false)}>Expand all</button>
+                            <button onClick={() => setAreImagesHidden(true)}>Collapse all</button>
                             <select id="dropdown" value={selectedOption} onChange={handleSelectChange}>
-                                <option value="default">All plants</option>
+                                <option value="Default">All plants</option>
                                 <option value="Watered">Watered</option>
                                 <option value="NotWatered">Not watered</option>
                             </select>
