@@ -5,7 +5,6 @@ import Login from './Pages/Login/Login';
 import Register from './Pages/Login/Register';
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Search from "./Pages/Search/Search";
-import Navbar from "./Navbar";
 
 const App = () => {
     return (

@@ -42,11 +42,10 @@ code {
   display: flex;
   justify-content: space-between;
   min-width: 100px;
-  min-height: 100px;
 }
 
 .flower-left-side {
-  width: 30%;
+  width: 20%;
   display: flex;
   justify-content: space-around;
 }
@@ -59,7 +58,7 @@ code {
 }
 
 .flower > p {
-  width: 17%;
+  width: 30%;
   text-align: center;
 }
 

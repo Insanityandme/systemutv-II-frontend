@@ -180,15 +180,12 @@ const Dashboard = () => {
                                 key={index}
                                 nickname={
                                   <>
-                                    <b>Name</b><br/>
-                                    {flower.nickname}
+                                    <b>Name:</b> {flower.nickname}
                                   </>
                                 }
                                 lastWatered={
                                     <>
-                                        <b>Last watered</b><br/>
-                                        {flower.lastWatered}<br/>
-                                        {daysSince(flower.lastWatered)} days ago
+                                        <b>Last watered</b> {flower.lastWatered} {daysSince(flower.lastWatered)} days ago
                                     </>
                                 }
                                 info={
