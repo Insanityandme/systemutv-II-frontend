@@ -1,6 +1,7 @@
 import './Dashboard.css';
 import Navbar from "../../Navbar";
 import Flower from "./Flower";
+import FlowerWithoutImage from "./FlowerWithoutImage";
 import {useNavigate} from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import Notification from "../../Notification";
@@ -12,7 +13,7 @@ const Dashboard = () => {
     const [flowers, setFlowers] = useState([]);
     const [fact, setFact] = useState();
     const [errorText, setErrorText] = useState('');
-    const [dateValue, setDateValue] = useState(new Date());
+    const [areImagesHidden, setAreImagesHidden] = useState(false);
 
     // create a function that takes in a date and returns the number of days since that date
     const daysSince = (date) => {
@@ -171,37 +172,72 @@ const Dashboard = () => {
     const showFlowers = () => {
         return (
             <div className="flowers-grid">
-                {flowers.map((flower, index) => (
-                    <Flower
-                        id={flower.id}
-                        key={index}
-                        image={flower.imageURL}
-                        nickname={
-                          <>
-                            <b>Name</b><br/>
-                            {flower.nickname}
-                          </>
-                        }
-                        lastWatered={
-                            <>
-                                <b>Last watered</b><br/>
-                                {flower.lastWatered}<br/>
-                                {daysSince(flower.lastWatered)} days ago
-                            </>
-                        }
-                        info={
-                            <>
-                                <span className="info-title">Genus: </span>{flower.genus}<br/>
-                                <span className="info-title">Family</span>{flower.family}<br/>
-                                <span className="info-title">Scientific Name: </span>{flower.scientificName}<br/>
-                                <span className="info-title">Family Common Name: </span>{flower.commonName}
-                            </>
-                        }
-                        deletePlant={deletePlant}
-                        waterSinglePlant={(plantId, dateValue) => waterSinglePlant(plantId, dateValue)}
-                        showDeleteButton={true}
-                    />
-                ))}
+                {flowers.map((flower, index) => {
+                    if (areImagesHidden) {
+                        return (
+                            <FlowerWithoutImage
+                                id={flower.id}
+                                key={index}
+                                nickname={
+                                  <>
+                                    <b>Name</b><br/>
+                                    {flower.nickname}
+                                  </>
+                                }
+                                lastWatered={
+                                    <>
+                                        <b>Last watered</b><br/>
+                                        {flower.lastWatered}<br/>
+                                        {daysSince(flower.lastWatered)} days ago
+                                    </>
+                                }
+                                info={
+                                    <>
+                                        <span className="info-title">Genus: </span>{flower.genus}<br/>
+                                        <span className="info-title">Family</span>{flower.family}<br/>
+                                        <span className="info-title">Scientific Name: </span>{flower.scientificName}<br/>
+                                        <span className="info-title">Family Common Name: </span>{flower.commonName}
+                                    </>
+                                }
+                                deletePlant={deletePlant}
+                                waterSinglePlant={(plantId, dateValue) => waterSinglePlant(plantId, dateValue)}
+                                showDeleteButton={true}
+                            />
+                        );
+                    } else {
+                        return (
+                            <Flower
+                                id={flower.id}
+                                key={index}
+                                image={flower.imageURL}
+                                nickname={
+                                  <>
+                                    <b>Name</b><br/>
+                                    {flower.nickname}
+                                  </>
+                                }
+                                lastWatered={
+                                    <>
+                                        <b>Last watered</b><br/>
+                                        {flower.lastWatered}<br/>
+                                        {daysSince(flower.lastWatered)} days ago
+                                    </>
+                                }
+                                info={
+                                    <>
+                                        <span className="info-title">Genus: </span>{flower.genus}<br/>
+                                        <span className="info-title">Family</span>{flower.family}<br/>
+                                        <span className="info-title">Scientific Name: </span>{flower.scientificName}<br/>
+                                        <span className="info-title">Family Common Name: </span>{flower.commonName}
+                                    </>
+                                }
+                                deletePlant={deletePlant}
+                                waterSinglePlant={(plantId, dateValue) => waterSinglePlant(plantId, dateValue)}
+                                showDeleteButton={true}
+                            />
+                        );
+                    }
+                })}
             </div>
         );
     };
@@ -250,8 +286,8 @@ const Dashboard = () => {
 
                         <div className={"dashboard-buttons"}>
                             <button onClick={waterAllPlants}>Water all plants</button>
-                            <button>Expand all</button>
-                            <button>Collapse all</button>
+                            <button onClick={() => setAreImagesHidden(false)}>Expand all</button>
+                            <button onClick={() => setAreImagesHidden(true)}>Collapse all</button>
                             <select id="dropdown" value={selectedOption} onChange={handleSelectChange}>
                                 <option value="Default">All plants</option>
                                 <option value="Watered">Watered</option>
