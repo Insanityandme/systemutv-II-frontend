@@ -243,6 +243,13 @@ const Dashboard = () => {
         navigate('/search');
     }
 
+    const getUnwateredPlants = () => {
+        const eightDaysAgo = new Date();
+        eightDaysAgo.setDate(eightDaysAgo.getDate() - 8);
+    
+        return flowers.filter(plant => new Date(plant.lastWatered) < eightDaysAgo);
+    };
+
     const deletePlant = async (plantId) => {
         const userId = sessionStorage.getItem('userId');
         if (!userId) {
@@ -310,9 +317,9 @@ const Dashboard = () => {
                                 <>
                                     <h2>Notifications</h2>
                                     <div className={"notification-panel"}>
-                                        <p>Placeholder notification!</p>
-                                        <p>Placeholder notification 2</p>
-                                        <p>Placeholder notification 3!</p>
+                                        {getUnwateredPlants().map((plant, index) => (
+                                            <p key={index}>{plant.nickname} needs water!</p>
+                                        ))}
                                     </div>
                                 </>
                                 :
