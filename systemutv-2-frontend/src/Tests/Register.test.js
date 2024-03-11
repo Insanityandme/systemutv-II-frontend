@@ -2,6 +2,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import {BrowserRouter} from "react-router-dom";
 import Register from "../Pages/Login/Register";
 
+/*
+Tests if Register.js renders properly
+Requirements ID: F.UI.4
+ */
 test('test register page rendering', async () => {
     render(
         <BrowserRouter>
@@ -26,6 +30,9 @@ test('test register page rendering', async () => {
     expect(linkToLogin).toBeInTheDocument();
 });
 
+/*
+Tests redirection to Login.js
+ */
 test('test redirection to login', async () => {
     render(
         <BrowserRouter>
@@ -39,7 +46,10 @@ test('test redirection to login', async () => {
     expect(window.location.pathname).toBe('/');
 });
 
-
+/*
+Tests registering of a new user
+Requirements ID: F.A.5
+ */
 test('test to register an account', async () => {
     render(
         <BrowserRouter>

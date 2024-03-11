@@ -2,7 +2,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Login from '../Pages/Login/Login';
 import {BrowserRouter} from "react-router-dom";
 
-
+/*
+Tests if Login.js renders properly
+Requirements ID: F.UI.3
+ */
 test('testLoginRender', async () => {
     render(
         <BrowserRouter>
@@ -23,6 +26,9 @@ test('testLoginRender', async () => {
     expect(linkToRegister).toBeInTheDocument();
 });
 
+/*
+Test redirection to Register.js
+ */
 test('test redirection to register', async () => {
     render(
         <BrowserRouter>
@@ -37,7 +43,11 @@ test('test redirection to register', async () => {
 });
 
 
-// Requirement: ID here
+/*
+Test login function and redirection to Dashboard.js
+Requirements ID: F.A.1
+Requirements ID: F.SI.2
+ */
 test('login with valid credentials - redirection', async () => {
     render(
       <BrowserRouter>
@@ -58,6 +68,11 @@ test('login with valid credentials - redirection', async () => {
         expect(window.location.pathname).toBe('/dashboard');
     });
 });
+
+/*
+Test user token when logged in
+Requirements ID: F.A.1
+ */
 test('login with valid credentials - user token', async () => {
     render(
         <BrowserRouter>
