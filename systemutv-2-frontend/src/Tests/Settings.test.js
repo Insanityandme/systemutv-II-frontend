@@ -4,6 +4,10 @@ import Settings from "../Pages/Settings/Settings";
 import '@testing-library/jest-dom';
 import {act} from "react-dom/test-utils";
 
+/*
+Tests rendering of Settings.js
+Requirements ID: F.UI.8
+ */
 test('test settings render', async () => {
     // This is necessary because we are updating the state.
     await act( async () => {
